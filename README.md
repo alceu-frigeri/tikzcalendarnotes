@@ -1,12 +1,12 @@
-<PackageNAME>
+tikzcalendarnotes
 ==========
 
 Template for LaTeX packages ...
 
-<PackageDescription>
+tikz calendar marks and notes
 
 For more details,  see the documentation,
-[tikzquests.pdf](http://mirrors.ctan.org/macros/latex/contrib/<PackageNAME>/doc/<PackageNAME>.pdf)
+[tikzcalendarnotes.pdf](http://mirrors.ctan.org/macros/latex/contrib/tikzcalendarnotes/doc/tikzcalendarnotes.pdf)
 
 --------------
 
@@ -15,13 +15,13 @@ For more details,  see the documentation,
 (with the new in kernel *\ProcessKeyOptions* and *\NewDocumentCommand*).
 
 ## Installation
-The stable version is available at [CTAN](https://ctan.org/pkg/<PackageNAME>).
+The stable version is available at [CTAN](https://ctan.org/pkg/tikzcalendarnotes).
 
 ## Usage
 ### Stable version
 Just place
 ```latex
-  \usepackage{<PackageNAME>}
+  \usepackage{tikzcalendarnotes}
 ```
 
 in the preamble and compile away.
@@ -29,12 +29,12 @@ in the preamble and compile away.
 ## Contacting Author
 
 For bug reports and enhancement suggestions, the preferred way is to use
-[the project's issue page](https://github.com/alceu-frigeri/<PackageNAME>/issues).
+[the project's issue page](https://github.com/alceu-frigeri/tikzcalendarnotes/issues).
 Please be ready to provide an example code showing the bug, if any.
 
 Please do not use the issue page for generic help on how to use the package.
 
-* git: https://github.com/alceu-frigeri/<PackageNAME>
+* git: https://github.com/alceu-frigeri/tikzcalendarnotes
 
 -------------
 Copyright 2024-present by Alceu Frigeri
@@ -52,15 +52,15 @@ The Current Maintainer of this work is Alceu Frigeri
 -------------
 ## This work consist of the files
 
-* <PackageNAME>.sty
+* tikzcalendarnotes.sty
     - the package itself
 
 * README.md  (this file)
     - quick introduction
 
-* <PackageNAME>.tex
+* tikzcalendarnotes.tex
     - package documentation
-* <PackageNAME>.pdf
+* tikzcalendarnotes.pdf
     - documentation in PDF format
     
 -------------

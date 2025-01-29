@@ -15,10 +15,10 @@
 %%
 %% The Current Maintainer of this work is Alceu Frigeri
 %%
-%% This is version {1.0} {20**/**/**}
+%% This is version {1.0} {2025/01/33}
 %%
 %% The list of files that compose this work can be found in the README.md file at
-%% https://ctan.org/pkg/<PackageNAME>
+%% https://ctan.org/pkg/tikzcalendarnotes
 %%
 %%%==============================================================================
 \documentclass[10pt]{article}
@@ -29,15 +29,15 @@
 
 %%\usepackage[american,siunitx,cuteinductors,smartlabels,arrowmos,EFvoltages,betterproportions]{circuitikz}
 %%\usetikzlibrary{math}
-%%\usepackage{<PackageNAME>}
+%%\usepackage{tikzcalendarnotes}
 
 \RequirePackage[hidelinks,hypertexnames=false]{hyperref}
 
 \begin{document}
 \tstitle{
-  author={Alceu Frigeri\footnote{\tsverb{https://github.com/alceu-frigeri/<PackageNAME>}}},
+  author={Alceu Frigeri\footnote{\tsverb{https://github.com/alceu-frigeri/tikzcalendarnotes}}},
   date={\tsdate},
-  title={The <PackageNAME> Package\break ***Something*** \break Version \PkgInfo{<PackageNAME>}{version}}
+  title={The tikzcalendarnotes Package\break ***Something*** \break Version \PkgInfo{tikzcalendarnotes}{version}}
   }
   
 
@@ -70,6 +70,13 @@ some code
 %\tsdemo*[emph={draw,none},emph2={path},emph3={name},basicstyle={\scriptsize\ttfamily},numbers=left]{demoA}
 %\tsresult
 
+\makeatletter
+%http://groups.google.com/group/comp.text.tex/msg/7e812e5d6e67fcc5
+\def\convertto#1#2{#1 = \strip@pt\dimexpr #1*65536/\number\dimexpr 1#2 #2\par}
+\makeatother
+\convertto{14ex}{em}
+\convertto{7ex}{em}
+\convertto{5.5ex}{em}
 
 
 \end{document} 

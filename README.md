@@ -5,7 +5,7 @@ Template for LaTeX packages ...
 
 tikz calendar marks and notes
 
-For more details,  see the documentation,
+For more details ,  see the documentation ,
 [tikzcalendarnotes.pdf](http://mirrors.ctan.org/macros/latex/contrib/tikzcalendarnotes/doc/tikzcalendarnotes.pdf)
 
 --------------
@@ -28,9 +28,9 @@ in the preamble and compile away.
 
 ## Contacting Author
 
-For bug reports and enhancement suggestions, the preferred way is to use
+For bug reports and enhancement suggestions , the preferred way is to use
 [the project's issue page](https://github.com/alceu-frigeri/tikzcalendarnotes/issues).
-Please be ready to provide an example code showing the bug, if any.
+Please be ready to provide an example code showing the bug , if any.
 
 Please do not use the issue page for generic help on how to use the package.
 
@@ -42,8 +42,8 @@ Copyright 2024-present by Alceu Frigeri
  This work may be distributed and/or modified under the
  conditions of
 
- * The [LaTeX Project Public License](http://www.latex-project.org/lppl.txt), version 1.3c (or later), and/or
- * The [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.html), version 3 (or later)
+ * The [LaTeX Project Public License](http://www.latex-project.org/lppl.txt) , version 1.3c (or later) , and/or
+ * The [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.html) , version 3 (or later)
 
 This work has the LPPL maintenance status *maintained*.
 

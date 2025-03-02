@@ -445,7 +445,7 @@ In case one just wants to change the remarks fontsize (in pt) used and nothing e
 
 \subsection{Counter related ones}\label{style:counters}
 \begin{codedescribe}[key]{keep counters}
-The counters won't be reset between calls, allowing to piecewise construction of a calendar, one or more months at time.
+The counters won't be reset between calls, allowing the piecewise construction of a calendar, one or more months at time.
 \end{codedescribe}
 \begin{tsremark} 
 This is needed, for instance, also when using the \tsobj[key]{starting at} key (\tsobj{\setcountingweeks}).
@@ -473,7 +473,7 @@ In case one just wants to change the notes fontsize (in pt) used and nothing els
 
 \subsection{Calendar arrangement}
 \begin{codedescribe}[key]{weeklist starts on x}
-This sets a month arrangement to be one week per line. A week might start at Sunday or Monday, the default being Sunday.
+This sets a month arrangement to be a week per line. The week might start at Sunday or Monday, the default being Sunday.
 \end{codedescribe}
 
 \begin{tsremark} 
@@ -630,7 +630,7 @@ First, 3 \tsobj[meta]{data sets} are created, highlighting a few dates.
 
 \tscode*
   [
-    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks,sethighlightdates},
+    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks,sethighlightdates,setranges,suppresscounting},
     emph={day,color,round,square,names,on,top,calendar,with,without,year,label,month,above,left,corner,centered,notes,every,sunday},
     emph2={date,dates,from,to,remark,mark,style}
   ]
@@ -660,7 +660,7 @@ Then, for instance, one can create a calendar (\tsobj{\calendarnotes}) with only
 
 \tscode*
   [
-    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks,sethighlightdates},
+    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks,sethighlightdates,setranges,suppresscounting},
     emph={day,color,round,square,names,on,top,calendar,with,without,year,label,month,above,left,corner,centered,notes,every,sunday},
     emph2={date,from,to,remark,mark,style}
   ]
@@ -742,7 +742,7 @@ Some text.
 
 \tscode*
   [
-    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks},
+    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks,setranges,suppresscounting},
     emph={day,color,round,square,names,on,top,calendar,with,without,year,label,month,above,left,corner,centered,notes,every,sunday},
     emph2={date,from,to,remark,mark,style},
     emph3={keep,counters}

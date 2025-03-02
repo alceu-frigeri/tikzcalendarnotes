@@ -1,9 +1,7 @@
 tikzcalendarnotes
 ==========
 
-Template for LaTeX packages ...
-
-tikz calendar marks and notes
+This package offers a "calendar arrangement" (atop of the TikZ calendar library) and  provides a set of commands aimed at highlighting/marking dates.
 
 For more details , see the documentation ,
 [tikzcalendarnotes.pdf](http://mirrors.ctan.org/macros/latex/contrib/tikzcalendarnotes/doc/tikzcalendarnotes.pdf)
@@ -40,7 +38,7 @@ Please do not use the issue page for generic help on how to use the package.
 * git: https://github.com/alceu-frigeri/tikzcalendarnotes
 
 -------------
-Copyright 2024-present by Alceu Frigeri
+Copyright 2025-present by Alceu Frigeri
 
  This work may be distributed and/or modified under the
  conditions of

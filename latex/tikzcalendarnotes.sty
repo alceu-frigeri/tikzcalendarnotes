@@ -129,39 +129,77 @@
 \bool_new:N \l__tikzcalendarnotes_cntweek_case_bool 
 \bool_new:N \l__tikzcalendarnotes_nocntweek_case_bool 
 
-\tl_new:N \l__tikzcalendarnotes_day_Xshift_tl
-\tl_new:N \l__tikzcalendarnotes_day_Yshift_tl
-\tl_new:N \l__tikzcalendarnotes_inter_month_space_tl %matrix column spacing
+\bool_new:N \l__tikzcalendarnotes_keep_counters_pgfkey_bool
 
-\seq_new:N  \l__tikzcalendarnotes_tmpa_seq
-\seq_new:N  \l__tikzcalendarnotes_tmpb_seq
+\bool_new:N \l__tikzcalendarnotes_year_policy_set_bool
+\bool_new:N \l__tikzcalendarnotes_year_label_set_bool
 
-\tl_new:N \l__tikzcalendarnotes_hl_color_tl
-\tl_new:N \l__tikzcalendarnotes_markline_tl
-\tl_new:N \l__tikzcalendarnotes_markcolor_tl
+\tl_new:N \l__tikzcalendarnotes_dayspacing_Xshift_key_tl
+\tl_new:N \l__tikzcalendarnotes_weekspacing_Yshift_key_tl
+\tl_new:N \l__tikzcalendarnotes_inter_month_space_key_tl %matrix column spacing
+
+
+\tl_new:N \l__tikzcalendarnotes_hl_color_key_tl
 
 
 \int_new:N \l__tikzcalendarnotes_year_int
 \int_new:N \l__tikzcalendarnotes_month_int
 \int_new:N \l__tikzcalendarnotes_cnta_int
 \int_new:N \l__tikzcalendarnotes_cntb_int
+
 \tl_new:N \l__tikzcalendarnotes_tmpa_tl
 
+\tl_new:N \l__tikzcalendarnotes_begin_iso_tl
 
-\tl_new:N \l__tikzcalendarnotes_remarkdate_tl
-\tl_new:N \l__tikzcalendarnotes_dateref_tl
-\tl_new:N \l__tikzcalendarnotes_TXshift_tl
-\tl_new:N \l__tikzcalendarnotes_TYshift_tl
-\tl_new:N \l__tikzcalendarnotes_from_tl
-\tl_new:N \l__tikzcalendarnotes_to_tl
-\tl_new:N \l__tikzcalendarnotes_cnt_temp_tl
 
-\bool_new:N \l__tikzcalendarnotes_firstdraw_bool
+\tl_new:N \l__tikzcalendarnotes_dateremark_tmp_tl
+\tl_new:N \l__tikzcalendarnotes_dateref_tmp_tl
+\tl_new:N \l__tikzcalendarnotes_from_key_tl
+\tl_new:N \l__tikzcalendarnotes_to_key_tl
+\tl_new:N \l__tikzcalendarnotes_cnt_ifdate_temp_tl
+\tl_new:N \l__tikzcalendarnotes_cnt_pgfcalifdate_temp_tl
+
+\bool_new:N \g__tikzcalendarnotes_firstdraw_bool
 
 \tl_new:N \l__tikzcalendarnotes_TXshift_tmp_tl
 \tl_new:N \l__tikzcalendarnotes_TYshift_tmp_tl
 
 
+\tl_new:N \l__tikzcalendarnotes_TXshift_scaled_tl
+\tl_new:N \l__tikzcalendarnotes_TYshift_scaled_tl
+
+
+\tl_new:N \l__tikzcalendarnotes_radius_tmp_tl
+\tl_new:N \l__tikzcalendarnotes_radius_scaled_tl
+\tl_new:N \l__tikzcalendarnotes_radius_adj_pgfkey_tl
+\tl_new:N \l__tikzcalendarnotes_ref_fontsize_tl
+
+
+\tl_new:N  \l__tikzcalendarnotes_weeklist_starts_on_tl
+\tl_new:N  \l__tikzcalendarnotes_weeklist_ends_on_tl
+\int_new:N \l__tikzcalendarnotes_weeklist_delta_int
+\int_new:N \l__tikzcalendarnotes_weeklist_starts_on_int
+
+
+
+
+\tl_new:N \l__tikzcalendarnotes_day_A_tl
+\tl_new:N \l__tikzcalendarnotes_day_B_tl
+\tl_new:N \l__tikzcalendarnotes_day_C_tl
+\tl_new:N \l__tikzcalendarnotes_day_D_tl
+\tl_new:N \l__tikzcalendarnotes_day_E_tl
+\tl_new:N \l__tikzcalendarnotes_day_F_tl
+\tl_new:N \l__tikzcalendarnotes_day_G_tl
+
+\tl_new:N \l__tikzcalendarnotes_day_A_style_tl
+\tl_new:N \l__tikzcalendarnotes_day_B_style_tl
+\tl_new:N \l__tikzcalendarnotes_day_C_style_tl
+\tl_new:N \l__tikzcalendarnotes_day_D_style_tl
+\tl_new:N \l__tikzcalendarnotes_day_E_style_tl
+\tl_new:N \l__tikzcalendarnotes_day_F_style_tl
+\tl_new:N \l__tikzcalendarnotes_day_G_style_tl
+
+
 %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%
 %%
@@ -170,13 +208,6 @@
 %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%
 
-\tl_new:N \c__tikzcalendarnotes_tiny_ref_tl
-\tl_new:N \c__tikzcalendarnotes_normal_ref_tl 
-
-
-\tl_new:N \c__tikzcalendarnotes_TXshift_tl
-\tl_new:N \c__tikzcalendarnotes_TYshift_tl
-
 
 
 %%%%%%%%%%%%%%%%%%
@@ -187,140 +218,88 @@
 %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%
 
+\cs_generate_variant:Nn \dim_to_decimal:n {e}
 
 \keys_define:nn {tikzcalendarnotes }
   {
     year .usage:n = general ,
-    year .tl_set:N = \l__tikzcalendarnotes_year_tl ,
+    year .tl_set:N = \l__tikzcalendarnotes_year_key_tl ,
     year .default:n = {\year} ,
     
-    starting~ month .usage:n = general ,
-    starting~ month .tl_set:N = \l__tikzcalendarnotes_initial_tl ,
-    starting~ month .default:n = {1} ,
+    starting~ at .usage:n = general ,
+    starting~ at .tl_set:N = \l__tikzcalendarnotes_starting_at_key_tl ,
+    starting~ at .default:n = {1} ,
 
     number~ of~ months .usage:n = general ,
-    number~ of~ months .tl_set:N = \l__tikzcalendarnotes_nmonths_tl ,
+    number~ of~ months .tl_set:N = \l__tikzcalendarnotes_nmonths_key_tl ,
     number~ of~ months .default:n = {12} ,
 
     per~ line .usage:n = general ,
-    per~ line .tl_set:N = \l__tikzcalendarnotes_perline_tl ,
+    per~ line .tl_set:N = \l__tikzcalendarnotes_perline_key_tl ,
     per~ line .default:n  = {3} ,
 
     with~ notes .usage:n = general ,
     with~ notes .code:n =  
       {
-        \tl_set:Nn \l__tikzcalendarnotes_day_Xshift_tl 
-          {6em}  % was 14ex
-        \tl_set:Nn \l__tikzcalendarnotes_day_Yshift_tl 
-          {12ex}      
-        \bool_set:Nn \l__tikzcalendarnotes_compact_bool 
-          {\c_false_bool}  
-        \tl_set:Nn \l__tikzcalendarnotes_inter_month_space_tl 
-          {6em}  % was 14ex
+        \tl_set:Nn \l__tikzcalendarnotes_dayspacing_Xshift_key_tl 
+          {25}  % was 14ex
+        \tl_set:Nn \l__tikzcalendarnotes_weekspacing_Yshift_key_tl 
+          {36}      
+        \bool_set_false:N \l__tikzcalendarnotes_compact_key_bool 
+          %{\c_false_bool}  
+        \tl_set:Nn \l__tikzcalendarnotes_inter_month_space_key_tl 
+          {20}  % was 14ex
       } ,
     with~ notes .value_forbidden:n = true ,
 
     without~ notes .usage:n = general ,
     without~ notes .code:n =  
       {
-        \tl_set:Nn \l__tikzcalendarnotes_day_Xshift_tl 
-%          {2.4em} % was 5.5ex
-          {4.25ex}
-        \tl_set:Nn \l__tikzcalendarnotes_day_Yshift_tl 
-%          {4.5ex}      
-          {4ex}
-        \bool_set:Nn \l__tikzcalendarnotes_compact_bool 
-          {\c_true_bool}  
-        \tl_set:Nn \l__tikzcalendarnotes_inter_month_space_tl 
-          {3em} %was 7ex
+        \tl_set:Nn \l__tikzcalendarnotes_dayspacing_Xshift_key_tl 
+          {15}
+        \tl_set:Nn \l__tikzcalendarnotes_weekspacing_Yshift_key_tl 
+          {17}
+        \bool_set_true:N \l__tikzcalendarnotes_compact_key_bool 
+          %{\c_true_bool}  
+        \tl_set:Nn \l__tikzcalendarnotes_inter_month_space_key_tl 
+          {5} %was 7ex
       } ,
     without~ notes .value_forbidden:n = true ,
-      
+    
     compact .usage:n = general ,
     compact .meta:n = { without~ notes } ,
     compact .value_forbidden:n = true ,
 
     day~ spacing .usage:n = general ,
-    day~ spacing .tl_set:N = \l__tikzcalendarnotes_day_Xshift_tl ,
+    day~ spacing .tl_set:N = \l__tikzcalendarnotes_dayspacing_Xshift_key_tl ,
     day~ spacing .value_required:n = true ,
 
     week~ spacing .usage:n = general ,
-    week~ spacing .tl_set:N = \l__tikzcalendarnotes_day_Yshift_tl ,
+    week~ spacing .tl_set:N = \l__tikzcalendarnotes_weekspacing_Yshift_key_tl ,
     week~ spacing .value_required:n = true ,
 
     month~ spacing .usage:n = general ,
-    month~ spacing .tl_set:N = \l__tikzcalendarnotes_inter_month_space_tl ,
+    month~ spacing .tl_set:N = \l__tikzcalendarnotes_inter_month_space_key_tl ,
     month~ spacing .value_required:n = true ,
 
     data~ set .usage:n = general ,
-    data~ set .tl_set:N = \l__tikzcalendarnotes_dataset_tl ,
+    data~ set .tl_set:N = \l__tikzcalendarnotes_dataset_key_tl ,
     data~ set .default:n  = {default} ,
     
     name .usage:n = general ,
-    name .tl_set:N = \l__tikzcalendarnotes_cal_name_tl ,
+    name .tl_set:N = \l__tikzcalendarnotes_cal_name_key_tl ,
     name .default:n  = {cal} ,
     
-    remarks~ font size .usage:n = general ,
-    remarks~ font size .tl_set:N = \l__tikzcalendarnotes_remarks_fontsize_tl ,
-    remarks~ font size .default:n  = {5} ,
-    
-    notes~ font size .usage:n = general ,
-    notes~ font size .tl_set:N = \l__tikzcalendarnotes_notes_fontsize_tl ,
-    notes~ font size .default:n  = {6} ,
-    
-    sunday~ color .usage:n = general ,
-    sunday~ color .tl_set:N = \l__tikzcalendarnotes_sunday_color_tl ,
-    sunday~ color .default:n = {blue!70} ,   
-      
-    year~ text .usage:n = general ,
-    year~ text .tl_set:N = \l__tikzcalendarnotes_year_text_tl ,
-    year~ text .default:n = {\%y0} ,   
-      
-    year~ style .usage:n = general ,
-    year~ style .tl_set:N = \l__tikzcalendarnotes_year_style_tl ,
-    year~ style .default:n = {green!50!black} ,   
-      
-    year~ font .usage:n = general ,
-    year~ font .tl_set:N = \l__tikzcalendarnotes_year_font_tl ,
-    year~ font .default:n = {\Large\sffamily\bfseries} ,   
-      
-    month~ text .usage:n = general ,
-    month~ text .tl_set:N = \l__tikzcalendarnotes_month_text_tl ,
-    month~ text .default:n = {\textbf{\textit{\%mt}}} ,   
-      
-    month~ style .usage:n = general ,
-    month~ style .tl_set:N = \l__tikzcalendarnotes_month_style_tl ,
-    month~ style .default:n = {} ,   
-      
-    day~ text .usage:n = general ,
-    day~ text .tl_set:N = \l__tikzcalendarnotes_day_text_tl ,
-    day~ text .default:n = {\%d0} ,   
-      
-    day~ style .usage:n = general ,
-    day~ style .tl_set:N = \l__tikzcalendarnotes_day_style_tl ,
-    day~ style .default:n = {} ,   
-         
     defaults .usage:n = general ,
     defaults .meta:n = 
       {
-        year , starting~ month , number~ of~ months , per~ line , compact , data~ set , 
-        name , remarks~ fontsize , notes~ fontsize ,
-        sunday~ color , 
-        year~ text , year~ style , year~ font ,
-        month~ text , month~ style ,
-        day~ text , day~ style ,
+        year , starting~ at , number~ of~ months , per~ line , compact , data~ set , 
+        name ,
       } ,
-    defaults .value_forbidden:n = true ,   
+    defaults .value_forbidden:n = true , 
   }
 
 
-  %
-  % Just in case someone decides to use the many styles BUT NOT \calendarnotes command
-  %
-\keys_set:nn {tikzcalendarnotes}
-  {
-    year~ text , month~ text , day~ text , sunday~ color , year~ font , 
-  }
 
 \keys_define:nn {tikzcalendarnotes / base set }
   {
@@ -331,19 +310,19 @@
           {
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {remark pos} {north~ east}       
+              {remark posref} {north~ east}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {remark anchor} {south~ west}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TX shift} {-\c__tikzcalendarnotes_TXshift_tl}    
+              {TX shift} {-\l__tikzcalendarnotes_TXshift_scaled_tl}    
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TY shift} {-\c__tikzcalendarnotes_TYshift_tl}    
-            \prop_put:cnn 
+              {TY shift} {-\l__tikzcalendarnotes_TYshift_scaled_tl}    
+            \prop_put:cne
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {date ref} {\l__tikzcalendarnotes_to_tl}       
+              {date ref} {\l__tikzcalendarnotes_to_key_tl}       
           }
       } ,
     north~ east  .value_forbidden:n = true ,
@@ -355,19 +334,19 @@
           {
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {remark pos} {north~ west}       
+              {remark posref} {north~ west}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {remark anchor} {south~ east}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TX shift} {\c__tikzcalendarnotes_TXshift_tl}    
+              {TX shift} {\l__tikzcalendarnotes_TXshift_scaled_tl}    
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TY shift} {-\c__tikzcalendarnotes_TYshift_tl}    
-            \prop_put:cnn 
+              {TY shift} {-\l__tikzcalendarnotes_TYshift_scaled_tl}    
+            \prop_put:cne
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {date ref} {\l__tikzcalendarnotes_from_tl}       
+              {date ref} {\l__tikzcalendarnotes_from_key_tl}       
           }
       } ,
     north~ west  .value_forbidden:n = true ,
@@ -379,19 +358,19 @@
           {
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {remark pos} {south~ east}       
+              {remark posref} {south~ east}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {remark anchor} {north~ west}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TX shift} {-\c__tikzcalendarnotes_TXshift_tl}    
+              {TX shift} {-\l__tikzcalendarnotes_TXshift_scaled_tl}    
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TY shift} {\c__tikzcalendarnotes_TYshift_tl}    
-            \prop_put:cnn 
+              {TY shift} {\l__tikzcalendarnotes_TYshift_scaled_tl}    
+            \prop_put:cne
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {date ref} {\l__tikzcalendarnotes_to_tl}       
+              {date ref} {\l__tikzcalendarnotes_to_key_tl}       
           }
       } ,
     south~ east  .value_forbidden:n = true ,
@@ -403,19 +382,19 @@
           {
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {remark pos} {south~ west}       
+              {remark posref} {south~ west}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {remark anchor} {north~ east}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TX shift} {\c__tikzcalendarnotes_TXshift_tl}    
+              {TX shift} {\l__tikzcalendarnotes_TXshift_scaled_tl}    
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TY shift} {\c__tikzcalendarnotes_TYshift_tl}    
-            \prop_put:cnn 
+              {TY shift} {\l__tikzcalendarnotes_TYshift_scaled_tl}    
+            \prop_put:cne
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {date ref} {\l__tikzcalendarnotes_from_tl}       
+              {date ref} {\l__tikzcalendarnotes_from_key_tl}       
           }
       } ,
     south~ west  .value_forbidden:n = true ,
@@ -436,21 +415,21 @@
       } ,
     notes .value_required:n = true ,
       
-    circle .usage:n = general ,
-    circle .code:n =
+    round .usage:n = general ,
+    round .code:n =
       {
-        \__tikzcalendarnotes_keycode:nnnn {keys~04}{circle}
-          {circle}{circle}
+        \__tikzcalendarnotes_keycode:nnnn {keys~04}{round}
+          {round}{round}
       } ,
-    circle .value_forbidden:n = true ,
+    round .value_forbidden:n = true ,
 
-    rectangle .usage:n = general ,
-    rectangle .code:n =
+    square .usage:n = general ,
+    square .code:n =
       {
-        \__tikzcalendarnotes_keycode:nnnn {keys~03}{rectangle}
-          {rectangle}{rectangle}
+        \__tikzcalendarnotes_keycode:nnnn {keys~03}{square}
+          {square}{square}
       } ,
-    rectangle .value_forbidden:n = true ,
+    square .value_forbidden:n = true ,
     
     color .usage:n = general ,
     color .code:n =
@@ -468,14 +447,21 @@
       } ,
     remark~ style .value_required:n = true ,
     
-
-    draw~ style .usage:n = general ,
-    draw~ style .code:n =
+    note~ style .usage:n = general ,
+    note~ style .code:n =
       {
-        \__tikzcalendarnotes_keycode:nnnn {keys~00}{draw~ style=#1}
+        \__tikzcalendarnotes_keycode:nnnn {keys~11}{note~ style=#1}
+          {note style}{#1}
+      } ,
+    note~ style .value_required:n = true ,   
+
+    mark~ style .usage:n = general ,
+    mark~ style .code:n =
+      {
+        \__tikzcalendarnotes_keycode:nnnn {keys~00}{mark~ style=#1}
           {draw style}{#1}
       } ,
-    draw~ style .value_required:n = true ,
+    mark~ style .value_required:n = true ,
       
   }
 
@@ -490,8 +476,8 @@
     date .usage:n = general ,
     date .code:n = 
       { 
-        \bool_set:Nn \l__tikzcalendarnotes_date_set_flag_bool 
-          {\c_true_bool}
+        \bool_set_true:N \l__tikzcalendarnotes_date_set_flag_bool 
+          %{\c_true_bool}
         \__tikzcalendarnotes_try_insert_date:nn 
           {#1}
           {} 
@@ -504,10 +490,10 @@
     dates .usage:n = general ,
     dates .code:n = 
       {         
-        \bool_set:Nn \l__tikzcalendarnotes_hldates_set_flag_bool 
-          {\c_true_bool}
-        \bool_set:Nn \l__tikzcalendarnotes_date_set_flag_bool 
-          {\c_true_bool}  % for now. CHANGE IT
+        \bool_set_true:N \l__tikzcalendarnotes_hldates_set_flag_bool 
+          %{\c_true_bool}
+        \bool_set_true:N \l__tikzcalendarnotes_date_set_flag_bool 
+          %{\c_true_bool}  % for now. CHANGE IT
           
         \clist_set:Nn \l_tmpa_clist 
           {#1}
@@ -516,14 +502,14 @@
           {
             \__tikzcalendarnotes_try_insert_date:nV 
               {##1}
-              \l__tikzcalendarnotes_hl_color_tl
+              \l__tikzcalendarnotes_hl_color_key_tl
           }
       } ,
     dates .value_required:n = true ,
 
     color .usage:n = general ,
-    color .tl_set:N = \l__tikzcalendarnotes_hl_color_tl ,
-    color .value_required:n = true ,    
+    color .tl_set:N = \l__tikzcalendarnotes_hl_color_key_tl ,
+    color .value_required:n = true , 
   }
 
 
@@ -539,20 +525,20 @@
     from .usage:n = general ,
     from .code:n =
       {
-        \tl_set:Nn \l__tikzcalendarnotes_from_tl 
+        \tl_set:Nn \l__tikzcalendarnotes_from_key_tl 
           {#1}
-        \bool_set:Nn \l__tikzcalendarnotes_from_set_flag_bool 
-          {\c_true_bool}
+        \bool_set_true:N \l__tikzcalendarnotes_from_set_flag_bool 
+          %{\c_true_bool}
       } ,
     from  .value_required:n = true ,
     
     to .usage:n = general ,
     to .code:n =
       {
-        \tl_set:Nn \l__tikzcalendarnotes_to_tl 
+        \tl_set:Nn \l__tikzcalendarnotes_to_key_tl 
           {#1}
-        \bool_set:Nn \l__tikzcalendarnotes_to_set_flag_bool 
-          {\c_true_bool}
+        \bool_set_true:N \l__tikzcalendarnotes_to_set_flag_bool 
+          %{\c_true_bool}
       } ,
     to .value_required:n = true ,
   }
@@ -562,20 +548,20 @@
     from .usage:n = general ,
     from .code:n =
       {
-        \tl_set:Nn \l__tikzcalendarnotes_from_tl 
+        \tl_set:Nn \l__tikzcalendarnotes_from_key_tl 
           {#1}
-        \bool_set:Nn \l__tikzcalendarnotes_from_set_flag_bool 
-          {\c_true_bool}
+        \bool_set_true:N \l__tikzcalendarnotes_from_set_flag_bool 
+          %{\c_true_bool}
       } ,
     from  .value_required:n = true ,
     
     to .usage:n = general ,
     to .code:n =
       {
-        \tl_set:Nn \l__tikzcalendarnotes_to_tl 
+        \tl_set:Nn \l__tikzcalendarnotes_to_key_tl 
           {#1}
-        \bool_set:Nn \l__tikzcalendarnotes_to_set_flag_bool 
-          {\c_true_bool}
+        \bool_set_true:N \l__tikzcalendarnotes_to_set_flag_bool 
+          %{\c_true_bool}
       } ,
     to .value_required:n = true ,
   }    
@@ -585,20 +571,20 @@
     from .usage:n = general ,
     from .code:n =
       {
-        \tl_set:Nn \l__tikzcalendarnotes_from_tl 
+        \tl_set:Nn \l__tikzcalendarnotes_from_key_tl 
           {#1}
-        \bool_set:Nn \l__tikzcalendarnotes_from_set_flag_bool 
-          {\c_true_bool}
+        \bool_set_true:N \l__tikzcalendarnotes_from_set_flag_bool 
+          %{\c_true_bool}
       } ,
     from  .value_required:n = true ,
     
     to .usage:n = general ,
     to .code:n =
       {
-        \tl_set:Nn \l__tikzcalendarnotes_to_tl 
+        \tl_set:Nn \l__tikzcalendarnotes_to_key_tl 
           {#1}
-        \bool_set:Nn \l__tikzcalendarnotes_to_set_flag_bool 
-          {\c_true_bool}
+        \bool_set_true:N \l__tikzcalendarnotes_to_set_flag_bool 
+          %{\c_true_bool}
       } ,
     to .value_required:n = true ,
     
@@ -608,20 +594,20 @@
         \__tikzcalendarnotes_keycode:nnn {keys~11}{up}
           {
             \__tikzcalendarnotes_try_insert_cntweek:ee 
-              {\l__tikzcalendarnotes_from_tl}
-              {\l__tikzcalendarnotes_to_tl}
+              {\l__tikzcalendarnotes_from_key_tl}
+              {\l__tikzcalendarnotes_to_key_tl}
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {cnt pos} {north~ west}       
+              {cnt posref} {north~ west}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {cnt anchor} {south~ east}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TX shift} {\c__tikzcalendarnotes_TXshift_tl}    
+              {TX shift} {\l__tikzcalendarnotes_TXshift_scaled_tl}    
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TY shift} {-\c__tikzcalendarnotes_TYshift_tl}    
+              {TY shift} {-\l__tikzcalendarnotes_TYshift_scaled_tl}    
           }
       } ,
       up .value_forbidden:n = true ,
@@ -632,20 +618,20 @@
         \__tikzcalendarnotes_keycode:nnn {keys~12}{down}
           {
             \__tikzcalendarnotes_try_insert_cntweek:ee 
-              {\l__tikzcalendarnotes_from_tl}
-              {\l__tikzcalendarnotes_to_tl}
+              {\l__tikzcalendarnotes_from_key_tl}
+              {\l__tikzcalendarnotes_to_key_tl}
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {cnt pos} {south~ west}       
+              {cnt posref} {south~ west}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {cnt anchor} {north~ east}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TX shift} {\c__tikzcalendarnotes_TXshift_tl}    
+              {TX shift} {\l__tikzcalendarnotes_TXshift_scaled_tl}    
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TY shift} {\c__tikzcalendarnotes_TYshift_tl}    
+              {TY shift} {\l__tikzcalendarnotes_TYshift_scaled_tl}    
           }
       } ,
       down .value_forbidden:n = true ,
@@ -656,17 +642,17 @@
         \__tikzcalendarnotes_keycode:nnn {keys~13}{center}
           {
             \__tikzcalendarnotes_try_insert_cntweek:ee 
-              {\l__tikzcalendarnotes_from_tl}
-              {\l__tikzcalendarnotes_to_tl}
+              {\l__tikzcalendarnotes_from_key_tl}
+              {\l__tikzcalendarnotes_to_key_tl}
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {cnt pos} {west}       
+              {cnt posref} {west}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {cnt anchor} {east}       
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
-              {TX shift} {\c__tikzcalendarnotes_TXshift_tl}    
+              {TX shift} {\l__tikzcalendarnotes_TXshift_scaled_tl}    
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {TY shift} {0 pt}    
@@ -680,8 +666,8 @@
         \__tikzcalendarnotes_keycode:nnn {keys~13}{color=#1}
           {
             \__tikzcalendarnotes_try_insert_cntweek:ee 
-              {\l__tikzcalendarnotes_from_tl}
-              {\l__tikzcalendarnotes_to_tl}
+              {\l__tikzcalendarnotes_from_key_tl}
+              {\l__tikzcalendarnotes_to_key_tl}
             \prop_put:cnn 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
               {color} {color=#1}       
@@ -689,6 +675,19 @@
       } ,
     color .value_required:n = true ,
     
+    starting~ at .usage:n = general ,
+    starting~ at .code:n = 
+      {
+        \__tikzcalendarnotes_keycode:nnn {keys~14}{starting~ at=#1}
+          {
+            \__tikzcalendarnotes_try_insert_cntweek:ee 
+              {\l__tikzcalendarnotes_from_key_tl}
+              {\l__tikzcalendarnotes_to_key_tl}
+            \int_gset:cn {g__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_from_key_tl : \l__tikzcalendarnotes_to_key_tl _cnt _int}
+              {#1 - 1}
+          }
+      } ,
+    starting~ at .value_required:n = true ,
   }
 
 
@@ -708,7 +707,7 @@
       {
         \bool_if:NT \l__tikzcalendarnotes_range_case_bool
           {
-            \__tikzcalendarnotes_try_insert_range:ee {\l__tikzcalendarnotes_from_tl}{\l__tikzcalendarnotes_to_tl}
+            \__tikzcalendarnotes_try_insert_range:ee {\l__tikzcalendarnotes_from_key_tl}{\l__tikzcalendarnotes_to_key_tl}
           }
         \prop_put:cnn {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ \l__tikzcalendarnotes_date_tl _prop} 
           {#3} {#4}
@@ -725,7 +724,7 @@
       {
         \bool_if:NT \l__tikzcalendarnotes_range_case_bool
           {
-            \__tikzcalendarnotes_try_insert_range:ee {\l__tikzcalendarnotes_from_tl}{\l__tikzcalendarnotes_to_tl}
+            \__tikzcalendarnotes_try_insert_range:ee {\l__tikzcalendarnotes_from_key_tl}{\l__tikzcalendarnotes_to_key_tl}
           }
         #3
       }
@@ -734,8 +733,6 @@
       }  
   }
 
-
-
 \cs_generate_variant:Nn \tl_set:Nn {Ne}
 \cs_generate_variant:Nn \tl_gset:Nn {Ne}
 
@@ -743,28 +740,20 @@
 \makeatletter 
 \cs_new_protected:Npn \__tikzcalendarnotes_set_dim_constants: 
   {
-    { 
-      \tiny 
-      \tl_gset:Ne \c__tikzcalendarnotes_tiny_ref_tl {\f@size}
-    }
-    \tl_set:Ne \c__tikzcalendarnotes_normal_ref_tl {\f@size}
-    
-    \tl_set:Ne \c__tikzcalendarnotes_TXshift_tl 
-      { % was 5.8
-        \fp_eval:n {\dim_ratio:nn{9.0pt}{5pt}*\c__tikzcalendarnotes_tiny_ref_tl} pt 
-      }
-    \tl_set:Ne \c__tikzcalendarnotes_TYshift_tl 
+    \tl_set:Ne \l__tikzcalendarnotes_ref_fontsize_tl {\f@size}
+       
+    \tl_set:Ne \l__tikzcalendarnotes_TXshift_scaled_tl 
       { 
-        \fp_eval:n {\dim_ratio:nn{3.5pt}{5pt}*\c__tikzcalendarnotes_tiny_ref_tl} pt 
+        \fp_eval:n {0.6 * \l__tikzcalendarnotes_ref_fontsize_tl + 2pt} pt
+      }
+    \tl_set:Ne \l__tikzcalendarnotes_TYshift_scaled_tl 
+      { 
+        \fp_eval:n {0.35 * \l__tikzcalendarnotes_ref_fontsize_tl + 0.5pt} pt
       }
     
-    \tl_set:Ne \c__tikzcalendarnotes_radius_tl 
+    \tl_set:Ne \l__tikzcalendarnotes_radius_scaled_tl 
       { 
-        \fp_eval:n {\dim_ratio:nn{6.25pt}{10pt}*\c__tikzcalendarnotes_normal_ref_tl } pt 
-      }
-    \tl_set:Ne \c__tikzcalendarnotes_square_tl 
-      { 
-        \fp_eval:n {\dim_ratio:nn{12.5pt}{10pt}*\c__tikzcalendarnotes_normal_ref_tl } pt
+        \fp_eval:n {(5.75pt * \l__tikzcalendarnotes_ref_fontsize_tl) / 10pt } pt
       }
   }
 \makeatother
@@ -774,31 +763,18 @@
 
 \cs_new_protected:Npn \__tikzcalendarnotes_reset_defaults:
   {
-    \bool_set:Nn \l__tikzcalendarnotes_date_set_flag_bool 
-      {\c_false_bool}
-    \bool_set:Nn \l__tikzcalendarnotes_hldates_set_flag_bool 
-      {\c_false_bool}
-    \bool_set:Nn \l__tikzcalendarnotes_from_set_flag_bool 
-      {\c_false_bool}
-    \bool_set:Nn \l__tikzcalendarnotes_to_set_flag_bool 
-      {\c_false_bool}
-    \bool_set:Nn \l__tikzcalendarnotes_date_case_bool 
-      {\c_false_bool}
-    \bool_set:Nn \l__tikzcalendarnotes_hldates_case_bool 
-      {\c_false_bool}
-    \bool_set:Nn \l__tikzcalendarnotes_range_case_bool 
-      {\c_false_bool}
-    \bool_set:Nn \l__tikzcalendarnotes_cntweek_case_bool  
-      {\c_false_bool}
-    \bool_set:Nn \l__tikzcalendarnotes_nocntweek_case_bool  
-      {\c_false_bool}
+    \bool_set_false:N \l__tikzcalendarnotes_date_set_flag_bool 
+    \bool_set_false:N \l__tikzcalendarnotes_hldates_set_flag_bool 
+    \bool_set_false:N \l__tikzcalendarnotes_from_set_flag_bool 
+    \bool_set_false:N \l__tikzcalendarnotes_to_set_flag_bool 
+    \bool_set_false:N \l__tikzcalendarnotes_date_case_bool 
+    \bool_set_false:N \l__tikzcalendarnotes_hldates_case_bool 
+    \bool_set_false:N \l__tikzcalendarnotes_range_case_bool 
+    \bool_set_false:N \l__tikzcalendarnotes_cntweek_case_bool  
+    \bool_set_false:N \l__tikzcalendarnotes_nocntweek_case_bool  
       
-    \tl_set:Nn \l__tikzcalendarnotes_hl_color_tl 
+    \tl_set:Nn \l__tikzcalendarnotes_hl_color_key_tl 
       {lightgray}  
-    \tl_set:Nn \l__tikzcalendarnotes_markline_tl 
-      {thin}
-    \tl_set:Nn \l__tikzcalendarnotes_markcolor_tl 
-      {gray}      
   }
 
 
@@ -811,31 +787,28 @@
 %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%
 
-\cs_new_protected:Npn \__tikzcalendarnotes_markdraw:nn #1#2
+\cs_new_protected:Npn \__tikzcalendarnotes_markdraw:nnn #1#2#3
   {
-    \draw
-      [\l__tikzcalendarnotes_markline_tl , \l__tikzcalendarnotes_markcolor_tl , #1] 
-      (#2.center) 
-        ++(-\c__tikzcalendarnotes_radius_tl , -\c__tikzcalendarnotes_radius_tl) 
-        rectangle
-    		++(\c__tikzcalendarnotes_square_tl , \c__tikzcalendarnotes_square_tl) ;
-  }
-
-\cs_generate_variant:Nn \__tikzcalendarnotes_markdraw:nn {ee}
-
-\cs_new_protected:Npn \__tikzcalendarnotes_markdraw_range:nnn #1#2#3
-  {
-    \draw
-      [\l__tikzcalendarnotes_markline_tl , \l__tikzcalendarnotes_markcolor_tl , #1] 
+    \draw [#1] 
       (#3.center) 
-        ++(\c__tikzcalendarnotes_radius_tl , \c__tikzcalendarnotes_radius_tl) coordinate(A)
-        (#2.center)
-        ++(-\c__tikzcalendarnotes_radius_tl , -\c__tikzcalendarnotes_radius_tl) 
+        ++(-#2 , -#2) 
+        rectangle
+    		++(2*#2 , 2*#2) ;
+  }
+
+\cs_generate_variant:Nn \__tikzcalendarnotes_markdraw:nnn {eee}
+
+\cs_new_protected:Npn \__tikzcalendarnotes_markdraw_range:nnnn #1#2#3#4
+  {
+    \draw [#1] 
+      (#3.center) 
+        ++(-#2 , #2) coordinate(A)
+        (#4.center)
+        ++( #2 , -#2) 
         rectangle (A) ;
   }
 
-\cs_generate_variant:Nn \__tikzcalendarnotes_markdraw_range:nnn {eee}
-
+\cs_generate_variant:Nn \__tikzcalendarnotes_markdraw_range:nnnn {eeee}
 
 
 %%%%%%%%%%%%%%%%%%
@@ -861,6 +834,8 @@
         \seq_put_right:Nn \l__tikzcalendarnotes_dataset_seq {#1}
         \seq_new:c {l__tikzcalendarnotes_ #1 _cnt week_seq}
         \seq_new:c {l__tikzcalendarnotes_ #1 _no cntweek_seq}
+        \bool_new:c {l__tikzcalendarnotes_ #1 _cnt flag_bool} %for the 1st of every month
+        \tl_new:c {l__tikzcalendarnotes_ #1 _cnt hack_tl} %for the 1st of every month
       }
   }  
 
@@ -902,16 +877,16 @@
 %defaults      
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 _prop} 
-          {remark pos} {north~ east}       
+          {remark posref} {north~ east}       
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 _prop} 
           {remark anchor} {south~ west}      
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 _prop} 
-          {TX shift} {-\c__tikzcalendarnotes_TXshift_tl}    
+          {TX shift} {-\l__tikzcalendarnotes_TXshift_scaled_tl}    
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 _prop} 
-          {TY shift} {-\c__tikzcalendarnotes_TYshift_tl}    
+          {TY shift} {-\l__tikzcalendarnotes_TYshift_scaled_tl}    
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 _prop} 
           {date ref} {#1}       
@@ -949,16 +924,16 @@
     %defaults      
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _range _prop} 
-          {remark pos} {north~ east}       
+          {remark posref} {north~ east}       
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _range _prop} 
           {remark anchor} {south~ west}      
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _range _prop} 
-          {TX shift} {-\c__tikzcalendarnotes_TXshift_tl}    
+          {TX shift} {-\l__tikzcalendarnotes_TXshift_scaled_tl}    
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _range _prop} 
-          {TY shift} {-\c__tikzcalendarnotes_TYshift_tl}    
+          {TY shift} {-\l__tikzcalendarnotes_TYshift_scaled_tl}    
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _range _prop} 
           {date ref} {#2}       
@@ -1002,7 +977,8 @@
         \seq_put_right:cn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _cntweek_seq}
           {#1 : #2 _cnt}        
-        \int_new:c {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _cnt _int}
+        % the counter is global because months are typed in consecutive scopes, and not in a single go...
+        \int_new:c {g__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _cnt _int}
 
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _cnt _prop} 
@@ -1010,19 +986,19 @@
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ #1 : #2 _cnt _prop} 
           {to} {#2}  
-    % defaults      
+    % defaults: center
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _  #1 : #2 _cnt _prop} 
-          {cnt pos} {north~ west}       
+          {cnt posref} {west}       
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _  #1 : #2 _cnt _prop} 
-          {cnt anchor} {south~ east}       
+          {cnt anchor} {east}       
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _  #1 : #2 _cnt _prop} 
-          {TX shift} {\c__tikzcalendarnotes_TXshift_tl}    
+          {TX shift} {\l__tikzcalendarnotes_TXshift_scaled_tl}    
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _  #1 : #2 _cnt _prop} 
-          {TY shift} {-\c__tikzcalendarnotes_TYshift_tl}          
+          {TY shift} {0pt}          
         \prop_put:cnn 
           {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _  #1 : #2 _cnt _prop} 
           {color} {}          
@@ -1053,9 +1029,8 @@
 %%%%%%%%%%%%%%%%%%
 
 
-\cs_new_protected:Npn \__tikzcalendarnotes_matrix:nnnn #1#2#3#4  %year ,first ,n months ,per line
+\cs_new_protected:Npn \__tikzcalendarnotes_month_matrix:nnnn #1#2#3#4  %year ,first ,n months ,per line
   {
-    %\calendar[name=cal ,dates=#1-#2-01 to #1-#2-last];
     \int_set:Nn \l__tikzcalendarnotes_year_int {#1}
     \int_set:Nn \l__tikzcalendarnotes_month_int {#2}
     \int_set:Nn \l__tikzcalendarnotes_cnta_int {0}
@@ -1068,9 +1043,9 @@
         \tl_put_right:Ne \l__tikzcalendarnotes_tmpa_tl 
           {
             \exp_not:N \calendar[
-                        day~ xshift=\l__tikzcalendarnotes_day_Xshift_tl ,
-                        day~ yshift=\l__tikzcalendarnotes_day_Yshift_tl ,
-                        name=\l__tikzcalendarnotes_cal_name_tl ,
+                        day~ xshift=\l__tikzcalendarnotes_dayspacing_Xshift_key_tl pt,
+                        day~ yshift=\l__tikzcalendarnotes_weekspacing_Yshift_key_tl pt,
+                        name=\l__tikzcalendarnotes_cal_name_key_tl ,
                         dates=\int_use:N\l__tikzcalendarnotes_year_int - \int_use:N\l__tikzcalendarnotes_month_int -01 
                                ~ to ~ 
                               \int_use:N\l__tikzcalendarnotes_year_int - \int_use:N\l__tikzcalendarnotes_month_int -last
@@ -1105,73 +1080,236 @@
   }
   
 
+\makeatletter
+\cs_new_eq:NN \__tikzcalendarnotes_tikz_xshift \tikz@lib@cal@xshift
+\makeatother
 
 
-
-\cs_new_protected:Npn \__tikzcalendarnotes_ifdate_cntweek_set:Nnnnnnnn #1#2#3#4#5#6#7#8
+\cs_new_protected:Npn \__tikzcalendarnotes_ifdate_case_counting_tl_set:Nnnnnnn #1#2#3#4#5#6#7
   {
-    \int_gzero:c {#3}
+    \bool_if:NF \l__tikzcalendarnotes_keep_counters_pgfkey_bool
+      { 
+%        \int_show:c {#3}
+        \int_gzero:c {#3} 
+ %       \int_show:c {#3}
+      }
+      
     \tl_put_right:Nn #1 
       {
-        \exp_not:N\ifdate{between=#2}
+        \ifdate{#2}
           {
-            \exp_not:N\int_gincr:c {#3}
-            \exp_not:N\draw (\exp_not:N\pgfcalendarsuggestedname.#4) 
-              ++(#6 ,#7)
-              node[anchor=#5 , #8]()
-                {
-                  \exp_not:N\fontsize
-                    {\l__tikzcalendarnotes_remarks_fontsize_tl}
-                    {\l__tikzcalendarnotes_remarks_fontsize_tl}
-                  \exp_not:N\selectfont 
-                  \exp_not:N\int_use:c{#3}
-                } ;
+            \int_gincr:c {#3}
+            \draw (\pgfcalendarsuggestedname.#4) 
+              ++(#6)
+              node[#5](){ \int_use:c {#3} } ;
+            \tl_gput_right:cn {#7}
+              {
+                \draw (\pgfcalendarsuggestedname.#4 |-  \l__tikzcalendarnotes_cal_name_key_tl - \pgfcalendarifdateyear - \pgfcalendarifdatemonth - 01.#4) 
+                  ++(#6)
+                  node[#5](){ \int_use:c{#3} } ;                  
+              }
           }
           {}                
       }
   }
 
-\cs_generate_variant:Nn \__tikzcalendarnotes_ifdate_cntweek_set:Nnnnnnnn {Neeeeeee}
+\cs_generate_variant:Nn \__tikzcalendarnotes_ifdate_case_counting_tl_set:Nnnnnnn {Neeeeee}
 
-\cs_new_protected:Npn \__tikzcalendarnotes_ifdate_no_cntweek_set:Nnn #1#2#3
+
+
+
+
+\cs_new_protected:Npn \__tikzcalendarnotes_pgfcalifdate_case_counting_tl_set:Nnnnnnn #1#2#3#4#5#6#7
+  {
+%    \bool_if:NF \l__tikzcalendarnotes_keep_counters_pgfkey_bool
+%      { 
+%        \int_show:c {#3}
+%        \int_gzero:c {#3} 
+%        \int_show:c {#3}
+%      }
+      
+    \tl_put_right:Nn #1 
+      {
+        \pgfcalendarifdate{##1}{#2}
+          {
+            \int_compare:nNnT {\int_use:c{#3}} = {0}
+              { \int_gincr:c {#3} }
+              
+%            \tl_set:Nn \l_tmpa_tl {##1 ~::~ #2 ~::~ #3 ~::~ #7 }
+%            \tl_show:N \l_tmpa_tl
+%            \int_show:c {#3} 
+            \tl_gput_right:cn {#7}
+              {
+                \draw (\pgfcalendarsuggestedname.#4 |-  \l__tikzcalendarnotes_cal_name_key_tl - \pgfcalendarifdateyear - \pgfcalendarifdatemonth - 01.#4) 
+                  ++(#6)
+                  node[#5](){ \int_use:c{#3} } ;                  
+              }
+          }
+          {}                
+      }
+  }
+
+\cs_generate_variant:Nn \__tikzcalendarnotes_pgfcalifdate_case_counting_tl_set:Nnnnnnn {Neeeeee}
+
+
+\cs_generate_variant:Nn \use:n {V}
+
+\cs_new_protected:Npn \__tikzcalendarnotes_ifdate_case_no_tl_set:Nnn #1#2#3
   {
     \tl_set:Nn #1 
       {
-        \exp_not:N\ifdate{between=#3}
+        \ifdate{#3}
           {}
           { #2 }                
       }
   }
 
-\cs_generate_variant:Nn \__tikzcalendarnotes_ifdate_no_cntweek_set:Nnn {NVe}
+\cs_generate_variant:Nn \__tikzcalendarnotes_ifdate_case_no_tl_set:Nnn {NVe}
+
+
+
+
+\cs_new_protected:Npn \__tikzcalendarnotes_pgfcalifdate_case_no_tl_set:Nnn #1#2#3
+  {
+    \tl_set:Nn #1 
+      {
+        \pgfcalendarifdate{##1}{#3}
+          {}
+          { #2 }                
+      }
+  }
+
+\cs_generate_variant:Nn \__tikzcalendarnotes_pgfcalifdate_case_no_tl_set:Nnn {NVe}
+
+
+\cs_new_protected:Npn \__tikzcalendarnotes_shift_adjust_tl_set:Nn #1#2
+  {
+    \fp_compare:nNnTF {#1} < {0}
+      {
+        \tl_set:Ne #1 
+          {
+            \fp_eval:n {#1 + (#2)} pt
+          }
+      }
+      {
+        \tl_set:Ne #1 
+          {
+            \fp_eval:n {#1 - (#2)} pt
+          }
+      }
+  }
+
+\cs_generate_variant:Nn   \__tikzcalendarnotes_shift_adjust_tl_set:Nn {NV , Ne}
+
+\cs_new_protected:Npn \__tikzcalendarnotes_append_pgfcalifdate_test:n #1
+  {
+    \pgfkeys
+      {
+        tikz ,
+        @calnotes@cnt@if@/.append~ code = {#1} ,
+      }
+  }
+\cs_generate_variant:Nn \__tikzcalendarnotes_append_pgfcalifdate_test:n {V}
+
+
+\cs_new_protected:Npn \__tikzcalendarnotes_set_ifdate_before_day:nn #1#2
+  {
+    \pgfkeys
+      {
+        tikz,
+        @calnotes@cnt@if@/.code = {} ,
+        execute~ before~ day~ scope = 
+          {
+            \ifdate{equals = #1}
+              {
+                \int_set:Nn \l_tmpa_int {\pgfcalendarcurrentweekday + #2}
+                \pgfkeys{tikz,@calnotes@cnt@if@ = {#1+ -\int_use:N \l_tmpa_int}}
+              }
+              {}
+          }
+      }
+  }
+\cs_generate_variant:Nn \__tikzcalendarnotes_set_ifdate_before_day:nn {ee}
+
+
+
+
+% #1  \l__tikzcalendarnotes_cnt_ifdate_temp_tl
+% #2 l__tikzcalendarnotes_ ##1 _cnt flag_bool
+% #3 l__tikzcalendarnotes_ ##1 _cnt hack_tl
+
+\cs_new_protected:Npn \__tikzcalendarnotes_append_tikz_ifdate_after_day:nnn #1#2#3
+  {
+    \pgfkeys
+      {tikz ,
+        execute~ after~ day~ scope=
+          {  
+            \ifdate{\l__tikzcalendarnotes_weeklist_starts_on_tl} 
+              { 
+                \bool_if:cT {#2}
+                  {
+                    \tl_use:c {#3}
+                    \bool_set_false:c {#2}
+                  }
+                \tl_gclear:c {#3}
+                #1 
+              }
+              {
+                \ifdate{day~ of~ month = 1}
+                  {
+                    \bool_set_true:c {#2}
+                  }
+                  {} 
+              }
+          }
+      }
+  }
+
+\cs_generate_variant:Nn \__tikzcalendarnotes_append_tikz_ifdate_after_day:nnn {Vnn}
+
+
+
+
+\cs_new_protected:Npn \__tikzcalendarnotes_append_every_calendar_if:nn #1#2
+  {
+    \pgfkeys
+      {
+        tikz ,
+        every~ calendar/.append~ style=
+          {
+            if = { (#1) [#2] }
+          }
+      }
+  
+  }
+\cs_generate_variant:Nn \__tikzcalendarnotes_append_every_calendar_if:nn {ee}
+
+
 
 
 \cs_new_protected:Npn \__tikzcalendarnotes_set_ifdates:n #1
   {
+    \__tikzcalendarnotes_set_ifdate_before_day:ee 
+      {\l__tikzcalendarnotes_begin_iso_tl} 
+      {\int_use:N \l__tikzcalendarnotes_weeklist_delta_int}
+
+
     \clist_set:Nn \l_tmpa_clist {#1}
-    \tl_clear:N \l__tikzcalendarnotes_cnt_temp_tl
     \clist_map_inline:Nn \l_tmpa_clist
       {
-        \tl_set:Nn \l__tikzcalendarnotes_active_dataset_tl 
-          {##1}
+        \tl_clear:N \l__tikzcalendarnotes_cnt_ifdate_temp_tl
+        \tl_clear:N \l__tikzcalendarnotes_cnt_pgfcalifdate_temp_tl
+        \__tikzcalendarnotes_select_dataset:n {##1}
+        \tl_clear:c {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _cnt hack_tl}
         \seq_map_inline:cn { l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _dataset_seq}
           {
             \prop_get:cnNT 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {day color} \l_tmpa_tl
+              {day color} \l__tikzcalendarnotes_daycolor_tmp_tl
               {
-                \exp_args:Ne \pgfkeys
-                  {
-                    tikz ,
-                    every~ calendar/.append~ style=
-                      {
-                        if=
-                          {
-                            (equals=####1) 
-                            [color=\l_tmpa_tl]
-                          }
-                      }
-                  }
+                \__tikzcalendarnotes_append_every_calendar_if:ee
+                  {equals=####1}
+                  {color=\l__tikzcalendarnotes_daycolor_tmp_tl}
               }
           }
 
@@ -1179,27 +1317,18 @@
           {
             \prop_get:cnNT 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {day color} \l_tmpa_tl
+              {day color} \l__tikzcalendarnotes_daycolor_tmp_tl
               {
                 \prop_get:cnN 
                   {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {from} \l__tikzcalendarnotes_from_tl
+                  {from} \l__tikzcalendarnotes_from_tmp_tl
                 \prop_get:cnN 
                   {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {to} \l__tikzcalendarnotes_to_tl
-                  
-                \exp_args:Ne \pgfkeys
-                  {
-                    tikz ,
-                    every~ calendar/.append~ style=
-                      {
-                        if=
-                          {
-                            (between=\l__tikzcalendarnotes_from_tl and \l__tikzcalendarnotes_to_tl ) 
-                            [color=\l_tmpa_tl]
-                          }
-                      }
-                  }
+                  {to} \l__tikzcalendarnotes_to_tmp_tl
+                
+                \__tikzcalendarnotes_append_every_calendar_if:ee
+                  {between=\l__tikzcalendarnotes_from_tmp_tl and \l__tikzcalendarnotes_to_tmp_tl}
+                  {color=\l__tikzcalendarnotes_daycolor_tmp_tl}  
               }
           }
           
@@ -1207,73 +1336,122 @@
           {
             \prop_get:cnN 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {from} \l__tikzcalendarnotes_from_tl
+              {from} \l__tikzcalendarnotes_from_tmp_tl
             \prop_get:cnN 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {to} \l__tikzcalendarnotes_to_tl
+              {to} \l__tikzcalendarnotes_to_tmp_tl
             \prop_get:cnN  
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {cnt pos} \l_tmpa_tl
+              {cnt posref} \l__tikzcalendarnotes_cntposref_tmp_tl
             \prop_get:cnN 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {cnt anchor} \l_tmpb_tl
-            \prop_get:cnN 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {TX shift} \l__tikzcalendarnotes_TXshift_tmp_tl
-            \prop_get:cnN 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {TY shift} \l__tikzcalendarnotes_TYshift_tmp_tl
+              {cnt anchor} \l__tikzcalendarnotes_cntanchor_tmp_tl
             \prop_get:cnN 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
               {color} \l__tikzcalendarnotes_color_tmp_tl
+            \prop_get:cnN 
+              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+              {TX shift} \l__tikzcalendarnotes_TXshift_tmp_tl
+              
+            \__tikzcalendarnotes_shift_adjust_tl_set:NV
+              \l__tikzcalendarnotes_TXshift_tmp_tl
+              \l__tikzcalendarnotes_remark_Xshift_adj_pgfkey_tl
+              
+            \prop_get:cnN 
+              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+              {TY shift} \l__tikzcalendarnotes_TYshift_tmp_tl
+              
+            \fp_compare:nNnF {\l__tikzcalendarnotes_TYshift_tmp_tl} = {0}
+              {
+                \__tikzcalendarnotes_shift_adjust_tl_set:NV
+                  \l__tikzcalendarnotes_TYshift_tmp_tl
+                  \l__tikzcalendarnotes_remark_Yshift_adj_pgfkey_tl
+              }
+              
+            \__tikzcalendarnotes_ifdate_case_counting_tl_set:Neeeeee 
+              \l__tikzcalendarnotes_cnt_ifdate_temp_tl 
+              {between = \l__tikzcalendarnotes_from_tmp_tl+-6 and \l__tikzcalendarnotes_to_tmp_tl}
+              {g__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _int}
+              {\l__tikzcalendarnotes_cntposref_tmp_tl}
+              {anchor=\l__tikzcalendarnotes_cntanchor_tmp_tl , every~ counter , \l__tikzcalendarnotes_color_tmp_tl}
+              {0.7*\l__tikzcalendarnotes_TXshift_tmp_tl , 1.5*\l__tikzcalendarnotes_TYshift_tmp_tl}
+              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _cnt hack_tl}
+ 
+            \__tikzcalendarnotes_pgfcalifdate_case_counting_tl_set:Neeeeee 
+              \l__tikzcalendarnotes_cnt_pgfcalifdate_temp_tl 
+              {between = \l__tikzcalendarnotes_from_tmp_tl+-6 and \l__tikzcalendarnotes_to_tmp_tl}
+              {g__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _int}
+              {\l__tikzcalendarnotes_cntposref_tmp_tl}
+              {anchor=\l__tikzcalendarnotes_cntanchor_tmp_tl , every~ counter , \l__tikzcalendarnotes_color_tmp_tl}
+              {0.7*\l__tikzcalendarnotes_TXshift_tmp_tl , 1.5*\l__tikzcalendarnotes_TYshift_tmp_tl}
+              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _cnt hack_tl}
 
-            \__tikzcalendarnotes_ifdate_cntweek_set:Neeeeeee 
-              \l__tikzcalendarnotes_cnt_temp_tl 
-              {\l__tikzcalendarnotes_from_tl+-6 and \l__tikzcalendarnotes_to_tl}
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _int}
-              {\l_tmpa_tl}
-              {\l_tmpb_tl}
-              {0.7*\l__tikzcalendarnotes_TXshift_tmp_tl}
-              {\l__tikzcalendarnotes_TYshift_tmp_tl}
-              {\l__tikzcalendarnotes_color_tmp_tl}
-          }
+          } % end of cntweek for this <dataset>
           
         \seq_map_inline:cn { l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ no cnt week_seq}
           {
             \prop_get:cnN 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {from} \l__tikzcalendarnotes_from_tl
+              {from} \l__tikzcalendarnotes_from_tmp_tl
             \prop_get:cnN 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {to} \l__tikzcalendarnotes_to_tl
-            \__tikzcalendarnotes_ifdate_no_cntweek_set:NVe 
-              \l__tikzcalendarnotes_cnt_temp_tl 
-              \l__tikzcalendarnotes_cnt_temp_tl
-              {\l__tikzcalendarnotes_from_tl+-6 and \l__tikzcalendarnotes_to_tl}
-          }
-      }
-      \tl_if_empty:NF \l__tikzcalendarnotes_cnt_temp_tl
-        {
-          \exp_args:Ne \pgfkeys
-            {tikz ,
-              execute~ after~ day~ scope=
-                {
-                  \exp_not:N\ifdate{Sunday} 
-                    {
-                      \l__tikzcalendarnotes_cnt_temp_tl
-                    }
-                    {}
-                }
+              {to} \l__tikzcalendarnotes_to_tmp_tl
+              
+            \__tikzcalendarnotes_ifdate_case_no_tl_set:NVe 
+              \l__tikzcalendarnotes_cnt_ifdate_temp_tl 
+              \l__tikzcalendarnotes_cnt_ifdate_temp_tl
+              {between = \l__tikzcalendarnotes_from_tmp_tl+-6 and \l__tikzcalendarnotes_to_tmp_tl}
+
+            \__tikzcalendarnotes_pgfcalifdate_case_no_tl_set:NVe 
+              \l__tikzcalendarnotes_cnt_pgfcalifdate_temp_tl 
+              \l__tikzcalendarnotes_cnt_pgfcalifdate_temp_tl
+              {between = \l__tikzcalendarnotes_from_tmp_tl+-6 and \l__tikzcalendarnotes_to_tmp_tl}
+
+          } % end of no cntweek for this dataset
+
+          \tl_if_empty:NF \l__tikzcalendarnotes_cnt_ifdate_temp_tl
+            {
+              \__tikzcalendarnotes_append_tikz_ifdate_after_day:Vnn
+                \l__tikzcalendarnotes_cnt_ifdate_temp_tl
+                {l__tikzcalendarnotes_ ##1 _cnt flag_bool}
+                {l__tikzcalendarnotes_ ##1 _cnt hack_tl}
+                
+              \__tikzcalendarnotes_append_pgfcalifdate_test:V 
+                \l__tikzcalendarnotes_cnt_pgfcalifdate_temp_tl 
             }
-        }  
+
+      } % end of clist <datasets>
+      
+          
   }
 
 \cs_generate_variant:Nn \__tikzcalendarnotes_set_ifdates:n {e}
 
+
+%% from https://tex.stackexchange.com/questions/37709/how-can-i-know-if-a-node-is-already-defined/37713#37713
+%% yickes
+%% non portable, error prone if the underling pgf scheme changes... :/
+%%
+\makeatletter
+\cs_new_protected:Npn \__tikzcalendarnotes_setflag_ifdatenode_exist:Nn #1#2
+  {
+    \cs_if_exist:cTF {pgf@sh@ns@ \l__tikzcalendarnotes_cal_name_key_tl - #2}
+      {
+        \tl_if_eq:cNTF {pgf@sh@pi@ \l__tikzcalendarnotes_cal_name_key_tl - #2} \pgfpictureid
+          { \bool_set_true:N #1  }
+          { \bool_set_false:N #1  }
+      }
+      { \bool_set_false:N #1 }
+  }
+\makeatother
+
+\cs_generate_variant:Nn \__tikzcalendarnotes_setflag_ifdatenode_exist:Nn {NV}
+
+
 \cs_new_protected:Npn \__tizecalendarnotes_notes_typeset:nn #1#2 
   {
     \vcoffin_set:Nnn \l_tmpa_coffin
-      {#1 - 3pt} {#2}
+      {\fp_eval:n{#1 - 0.75em}pt} {#2}
     \coffin_typeset:Nnnnn \l_tmpa_coffin
       {l}{t}
       {0pt}{0pt}
@@ -1281,171 +1459,255 @@
 
 \cs_new_protected:Npn \__tikzcalendarnotes_draw_notes:n #1
   {
+    \tl_set:Ne \l__tikzcalendarnotes_radius_tmp_tl 
+      { 
+        \fp_eval:n {\l__tikzcalendarnotes_radius_scaled_tl + \l__tikzcalendarnotes_radius_adj_pgfkey_tl} pt
+      }      
       
     \clist_set:Nn \l_tmpa_clist {#1}
     \clist_map_inline:Nn \l_tmpa_clist
       {
-        \tl_set:Nn \l__tikzcalendarnotes_active_dataset_tl {##1}
+        \__tikzcalendarnotes_select_dataset:n {##1}
         \seq_map_inline:cn { l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _dataset_seq}
           {
-            \prop_get:cnNT 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {remark} \l__tikzcalendarnotes_remarkdate_tl
-              {
+            \__tikzcalendarnotes_setflag_ifdatenode_exist:Nn \l_tmpa_bool {####1}
+            \bool_if:NT \l_tmpa_bool
+              { 
                 \prop_get:cnNF 
                   {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {remark style} \l__tikzcalendarnotes_remarkstyle_tl
+                  {draw style} \l__tikzcalendarnotes_drawstyle_tmp_tl
                   {
-                    \tl_set:Nn \l__tikzcalendarnotes_remarkstyle_tl {}
+                    \tl_set:Nn \l__tikzcalendarnotes_drawstyle_tmp_tl {}
                   }
-                \prop_get:cnN  %TF \prop_get:cnNTF 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {remark pos} \l_tmpa_tl
-                \prop_get:cnN 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {remark anchor} \l_tmpb_tl
-                \prop_get:cnN 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {TX shift} \l__tikzcalendarnotes_TXshift_tl
-                \prop_get:cnN 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {TY shift} \l__tikzcalendarnotes_TYshift_tl
-
-                \use:e
-                  {
-                    \exp_not:N\draw[\l__tikzcalendarnotes_remarkstyle_tl] 
-                      (\l__tikzcalendarnotes_cal_name_tl - ####1 . \l_tmpa_tl) 
-                      ++(\l__tikzcalendarnotes_TXshift_tl , \l__tikzcalendarnotes_TYshift_tl) 
-                      node[anchor=\l_tmpb_tl]()
-                        {
-                          \exp_not:N\fontsize
-                            {\l__tikzcalendarnotes_remarks_fontsize_tl}
-                            {\l__tikzcalendarnotes_remarks_fontsize_tl}
-                          \exp_not:N\selectfont \l__tikzcalendarnotes_remarkdate_tl
-                        } ;
-                  }
-              }
-            \prop_get:cnNF 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {draw style} \l__tikzcalendarnotes_drawstyle_tl
-              {
-                \tl_set:Nn \l__tikzcalendarnotes_drawstyle_tl {}
-              }
-            \prop_get:cnNT 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {circle} \l_tmpa_tl
-              {
-                \__tikzcalendarnotes_markdraw:ee 
-                  {rounded~ corners=\c__tikzcalendarnotes_radius_tl , \l__tikzcalendarnotes_drawstyle_tl}
-                  {\l__tikzcalendarnotes_cal_name_tl - ####1}
-              }
-            \prop_get:cnNT 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {rectangle} \l_tmpa_tl
-              {
-                \__tikzcalendarnotes_markdraw:ee 
-                  {\l__tikzcalendarnotes_drawstyle_tl}
-                  {\l__tikzcalendarnotes_cal_name_tl - ####1}
-              }
-            \bool_if:NF \l__tikzcalendarnotes_compact_bool
-              {
+                  
                 \prop_get:cnNT 
                   {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {notes} \l__tikzcalendarnotes_notes_tl
+                  {round} \l_tmpa_tl
                   {
+                    \__tikzcalendarnotes_markdraw:eee 
+                      {
+                        every~ mark , 
+                        rounded~ corners=\l__tikzcalendarnotes_radius_tmp_tl , 
+                        \l__tikzcalendarnotes_drawstyle_tmp_tl
+                      }
+                      {\l__tikzcalendarnotes_radius_tmp_tl}
+                      {\l__tikzcalendarnotes_cal_name_key_tl - ####1}
+                  }
+                  
+                \prop_get:cnNT 
+                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                  {square} \l_tmpa_tl
+                  {
+                    \__tikzcalendarnotes_markdraw:eee 
+                      {
+                        every~ mark , 
+                        \l__tikzcalendarnotes_drawstyle_tmp_tl
+                      }
+                      {\l__tikzcalendarnotes_radius_tmp_tl}
+                      {\l__tikzcalendarnotes_cal_name_key_tl - ####1}
+                  }
+              
+                \prop_get:cnNT 
+                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                  {remark} \l__tikzcalendarnotes_dateremark_tmp_tl
+                  {
+                    \prop_get:cnNF 
+                      {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                      {remark style} \l__tikzcalendarnotes_remarkstyle_tmp_tl
+                      {
+                        \tl_set:Nn \l__tikzcalendarnotes_remarkstyle_tmp_tl {}
+                      }
+                    \prop_get:cnN  %TF \prop_get:cnNTF 
+                      {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                      {remark posref} \l__tikzcalendarnotes_remarkposref_tmp_tl
+                    \prop_get:cnN 
+                      {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                      {remark anchor} \l__tikzcalendarnotes_remarkanchor_tmp_tl
+                    \prop_get:cnN 
+                      {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                      {TX shift} \l__tikzcalendarnotes_TXshift_tmp_tl
+                    \__tikzcalendarnotes_shift_adjust_tl_set:NV
+                      \l__tikzcalendarnotes_TXshift_tmp_tl
+                      \l__tikzcalendarnotes_remark_Xshift_adj_pgfkey_tl
+                    
+                    \prop_get:cnN 
+                      {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                      {TY shift} \l__tikzcalendarnotes_TYshift_tmp_tl
+                    \__tikzcalendarnotes_shift_adjust_tl_set:NV
+                      \l__tikzcalendarnotes_TYshift_tmp_tl
+                      \l__tikzcalendarnotes_remark_Yshift_adj_pgfkey_tl
+    
                     \use:e
                       {
-                        \exp_not:N\draw[\l__tikzcalendarnotes_remarkstyle_tl] 
-                          (\l__tikzcalendarnotes_cal_name_tl - ####1 . south~ west) 
-                          node[anchor=north~ west]()
-                            {
-                              \exp_not:N\__tizecalendarnotes_notes_typeset:nn
-                                {\l__tikzcalendarnotes_day_Xshift_tl}
-                                {
-                                  \exp_not:N\fontsize
-                                    { \l__tikzcalendarnotes_notes_fontsize_tl }
-                                    { \fp_eval:n{1.2*\l__tikzcalendarnotes_notes_fontsize_tl} }
-                                  \exp_not:N\selectfont  \l__tikzcalendarnotes_notes_tl
-                                }
-
-                            } ;
+                        \exp_not:N\draw
+                          (\l__tikzcalendarnotes_cal_name_key_tl - ####1 . \l__tikzcalendarnotes_remarkposref_tmp_tl) 
+                          ++(\l__tikzcalendarnotes_TXshift_tmp_tl , \l__tikzcalendarnotes_TYshift_tmp_tl) 
+                          node
+                            [anchor=\l__tikzcalendarnotes_remarkanchor_tmp_tl , every~ remark , \l__tikzcalendarnotes_remarkstyle_tmp_tl]
+                            (\l__tikzcalendarnotes_cal_name_key_tl - ####1 - remark)
+                            { \l__tikzcalendarnotes_dateremark_tmp_tl } ;
                       }
-                  }          
+                  }
+                  
+                \bool_if:NF \l__tikzcalendarnotes_compact_key_bool
+                  {
+                    \prop_get:cnNT 
+                      {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                      {notes} \l__tikzcalendarnotes_notes_tmp_tl
+                      {
+                        \prop_get:cnNF 
+                          {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                          {note style} \l__tikzcalendarnotes_notestyle_tmp_tl
+                          {
+                            \tl_set:Nn \l__tikzcalendarnotes_notestyle_tmp_tl {}
+                          }
+                          
+                        \tl_set:Nn \l__tikzcalendarnotes_TYshift_tmp_tl 
+                          {\l__tikzcalendarnotes_TYshift_scaled_tl}
+                          
+                        \__tikzcalendarnotes_shift_adjust_tl_set:NV
+                          \l__tikzcalendarnotes_TYshift_tmp_tl
+                          \l__tikzcalendarnotes_remark_Yshift_adj_pgfkey_tl
+
+                        \use:e
+                          {
+                            \exp_not:N\draw
+                              (\l__tikzcalendarnotes_cal_name_key_tl - ####1 . south~ west) 
+                              ++(0pt,\l__tikzcalendarnotes_TYshift_tmp_tl)
+                              node
+                                [anchor=north~ west , every~ note , \l__tikzcalendarnotes_notestyle_tmp_tl]
+                                (\l__tikzcalendarnotes_cal_name_key_tl - ####1 - note)
+                                {
+                                  \exp_not:N\__tizecalendarnotes_notes_typeset:nn
+                                    {
+                                       \l__tikzcalendarnotes_dayspacing_Xshift_key_tl 
+                                    }
+                                    {\exp_not:N\noindent \l__tikzcalendarnotes_notes_tmp_tl }
+    
+                                } ;
+                          }
+                      }          
+                  }
               }
           }
+
+
+
         \seq_map_inline:cn { l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _range_seq}
           {
             \prop_get:cnN 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {from} \l__tikzcalendarnotes_from_tl
+              {from} \l__tikzcalendarnotes_from_tmp_tl
+              
             \prop_get:cnN 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {to} \l__tikzcalendarnotes_to_tl            
+              {to} \l__tikzcalendarnotes_to_tmp_tl 
+                         
             \prop_get:cnNF 
               {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {draw style} \l__tikzcalendarnotes_drawstyle_tl
+              {draw style} \l__tikzcalendarnotes_drawstyle_tmp_tl
               {
-                \tl_set:Nn \l__tikzcalendarnotes_drawstyle_tl {}
+                \tl_set:Nn \l__tikzcalendarnotes_drawstyle_tmp_tl {}
               }
-            \prop_get:cnNT 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {circle} \l_tmpa_tl
-              {
-                \__tikzcalendarnotes_markdraw_range:eee 
-                  {rounded~ corners=\c__tikzcalendarnotes_radius_tl , \l__tikzcalendarnotes_drawstyle_tl}
-                  {\l__tikzcalendarnotes_cal_name_tl - \l__tikzcalendarnotes_from_tl}
-                  {\l__tikzcalendarnotes_cal_name_tl - \l__tikzcalendarnotes_to_tl}
-              }
-            \prop_get:cnNT 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {rectangle} \l_tmpa_tl
-              {
-                \__tikzcalendarnotes_markdraw_range:eee 
-                  {\l__tikzcalendarnotes_drawstyle_tl}
-                  {\l__tikzcalendarnotes_cal_name_tl - \l__tikzcalendarnotes_from_tl}
-                  {\l__tikzcalendarnotes_cal_name_tl - \l__tikzcalendarnotes_to_tl}
-              }
-%%%              
-            \prop_get:cnNT 
-              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-              {remark} \l__tikzcalendarnotes_remarkdate_tl
-              {
-                \prop_get:cnNF 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {remark style} \l__tikzcalendarnotes_remarkstyle_tl
-                  {
-                    \tl_set:Nn \l__tikzcalendarnotes_remarkstyle_tl 
-                      {}
-                  }
-                \prop_get:cnN   %TF \prop_get:cnNTF 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {remark pos} \l_tmpa_tl
-                \prop_get:cnN 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {date ref} \l__tikzcalendarnotes_dateref_tl
-                \prop_get:cnN 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {remark anchor} \l_tmpb_tl
-                \prop_get:cnN 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {TX shift} \l__tikzcalendarnotes_TXshift_tl
-                \prop_get:cnN 
-                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
-                  {TY shift} \l__tikzcalendarnotes_TYshift_tl
+              
+            \__tikzcalendarnotes_setflag_ifdatenode_exist:NV 
+              \l_tmpa_bool 
+              {\l__tikzcalendarnotes_from_tmp_tl}
+              
+            \__tikzcalendarnotes_setflag_ifdatenode_exist:NV 
+              \l_tmpb_bool 
+              {\l__tikzcalendarnotes_to_tmp_tl}
 
-                \use:e
+            \bool_lazy_and:nnT {\l_tmpa_bool} {\l_tmpb_bool}
+              {
+                \prop_get:cnNT 
+                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                  {round} \l_tmpa_tl
                   {
-                    \exp_not:N\draw[\l__tikzcalendarnotes_remarkstyle_tl] 
-                      (\l__tikzcalendarnotes_cal_name_tl -  \l__tikzcalendarnotes_dateref_tl . \l_tmpa_tl) 
-                      ++(\l__tikzcalendarnotes_TXshift_tl ,\l__tikzcalendarnotes_TYshift_tl) 
-                      node[anchor=\l_tmpb_tl]()
-                        {
-                          \exp_not:N\fontsize
-                            {\l__tikzcalendarnotes_remarks_fontsize_tl}
-                            {\l__tikzcalendarnotes_remarks_fontsize_tl}
-                          \exp_not:N\selectfont \l__tikzcalendarnotes_remarkdate_tl
-                        } ;
+                    \__tikzcalendarnotes_markdraw_range:eeee 
+                      {
+                        every~ mark , 
+                        rounded~ corners=\l__tikzcalendarnotes_radius_tmp_tl , 
+                        \l__tikzcalendarnotes_drawstyle_tmp_tl
+                      }
+                      {\l__tikzcalendarnotes_radius_tmp_tl}
+                      {\l__tikzcalendarnotes_cal_name_key_tl - \l__tikzcalendarnotes_from_tmp_tl}
+                      {\l__tikzcalendarnotes_cal_name_key_tl - \l__tikzcalendarnotes_to_tmp_tl}
                   }
+                  
+                \prop_get:cnNT 
+                  {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                  {square} \l_tmpa_tl
+                  {
+                    \__tikzcalendarnotes_markdraw_range:eeee 
+                      {
+                        every~ mark , 
+                        \l__tikzcalendarnotes_drawstyle_tmp_tl
+                      }
+                      {\l__tikzcalendarnotes_radius_tmp_tl}
+                      {\l__tikzcalendarnotes_cal_name_key_tl - \l__tikzcalendarnotes_from_tmp_tl}
+                      {\l__tikzcalendarnotes_cal_name_key_tl - \l__tikzcalendarnotes_to_tmp_tl}
+                }
+              }
+%%%           
+
+            \prop_get:cnN 
+              {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+              {date ref} \l__tikzcalendarnotes_dateref_tmp_tl
+
+            \__tikzcalendarnotes_setflag_ifdatenode_exist:NV 
+              \l_tmpa_bool 
+              { \l__tikzcalendarnotes_dateref_tmp_tl }
+
+            \bool_if:NT \l_tmpa_bool 
+            {
+              \prop_get:cnNT 
+                {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                {remark} \l__tikzcalendarnotes_dateremark_tmp_tl
+                {
+                  \prop_get:cnNF 
+                    {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                    {remark style} \l__tikzcalendarnotes_remarkstyle_tmp_tl
+                    {
+                      \tl_set:Nn \l__tikzcalendarnotes_remarkstyle_tmp_tl 
+                        {}
+                    }
+                    
+                  \prop_get:cnN   
+                    {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                    {remark posref} \l__tikzcalendarnotes_remarkposref_tmp_tl
+                    
+                  \prop_get:cnN 
+                    {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                    {remark anchor} \l__tikzcalendarnotes_remarkanchor_tmp_tl
+                    
+                  \prop_get:cnN 
+                    {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                    {TX shift} \l__tikzcalendarnotes_TXshift_tmp_tl
+                    
+                  \__tikzcalendarnotes_shift_adjust_tl_set:NV
+                    \l__tikzcalendarnotes_TXshift_tmp_tl
+                    \l__tikzcalendarnotes_remark_Xshift_adj_pgfkey_tl
+                    
+                  \prop_get:cnN 
+                    {l__tikzcalendarnotes_ \l__tikzcalendarnotes_active_dataset_tl _ ####1 _prop}
+                    {TY shift} \l__tikzcalendarnotes_TYshift_tmp_tl
+                    
+                  \__tikzcalendarnotes_shift_adjust_tl_set:NV
+                    \l__tikzcalendarnotes_TYshift_tmp_tl 
+                    \l__tikzcalendarnotes_remark_Yshift_adj_pgfkey_tl
+  
+                  \use:e
+                    {
+                      \exp_not:N\draw
+                        (\l__tikzcalendarnotes_cal_name_key_tl -  \l__tikzcalendarnotes_dateref_tmp_tl . \l__tikzcalendarnotes_remarkposref_tmp_tl) 
+                        ++(\l__tikzcalendarnotes_TXshift_tmp_tl ,\l__tikzcalendarnotes_TYshift_tmp_tl) 
+                        node
+                          [anchor=\l__tikzcalendarnotes_remarkanchor_tmp_tl , every~ remark , \l__tikzcalendarnotes_remarkstyle_tmp_tl]
+                          (\l__tikzcalendarnotes_cal_name_key_tl - \l__tikzcalendarnotes_dateref_tmp_tl - remark)
+                          { \l__tikzcalendarnotes_dateremark_tmp_tl } ;
+                    }
+                }
               }
 %%%              
           }
@@ -1474,8 +1736,7 @@
   {
     \__tikzcalendarnotes_reset_defaults:
     
-    \bool_set:Nn \l__tikzcalendarnotes_date_case_bool 
-      {\c_true_bool}  
+    \bool_set_true:N \l__tikzcalendarnotes_date_case_bool 
     \tl_set:Nn \l__tikzcalendarnotes_msg_submodule_tl 
       {date not set}
 
@@ -1485,12 +1746,12 @@
       {#2}   
   }
 
-\NewDocumentCommand{\sethldates}{O{default}m}
+\NewDocumentCommand{\sethighlightdates}{O{default}m}
   {
     \__tikzcalendarnotes_reset_defaults:
     
-    \bool_set:Nn \l__tikzcalendarnotes_hldates_case_bool 
-      {\c_true_bool}  
+    \bool_set_true:N \l__tikzcalendarnotes_hldates_case_bool 
+      %{\c_true_bool}  
 
     \__tikzcalendarnotes_select_dataset:n {#1}
     \keys_set:nn 
@@ -1503,8 +1764,7 @@
   {
     \__tikzcalendarnotes_reset_defaults:
     
-    \bool_set:Nn \l__tikzcalendarnotes_range_case_bool 
-      {\c_true_bool}  
+    \bool_set_true:N \l__tikzcalendarnotes_range_case_bool 
     \tl_set:Nn \l__tikzcalendarnotes_msg_submodule_tl 
       {range not set}
 
@@ -1520,8 +1780,7 @@
   {
     \__tikzcalendarnotes_reset_defaults:
 
-    \bool_set:Nn \l__tikzcalendarnotes_cntweek_case_bool 
-      {\c_true_bool}  
+    \bool_set_true:N \l__tikzcalendarnotes_cntweek_case_bool 
     \tl_set:Nn \l__tikzcalendarnotes_msg_submodule_tl 
       {range not set}
 
@@ -1533,15 +1792,15 @@
    \bool_if:nT 
     {\l__tikzcalendarnotes_from_set_flag_bool && \l__tikzcalendarnotes_to_set_flag_bool}
     {
-      \__tikzcalendarnotes_try_insert_cntweek:ee {\l__tikzcalendarnotes_from_tl}{\l__tikzcalendarnotes_to_tl}  
+      \__tikzcalendarnotes_try_insert_cntweek:ee {\l__tikzcalendarnotes_from_key_tl}{\l__tikzcalendarnotes_to_key_tl}  
     }   
   }
 
 \NewDocumentCommand{\suppresscounting}{O{default}m}
   {
      \__tikzcalendarnotes_reset_defaults:
-    \bool_set:Nn \l__tikzcalendarnotes_nocntweek_case_bool 
-      {\c_true_bool}  
+    \bool_set_true:N \l__tikzcalendarnotes_nocntweek_case_bool 
+      %{\c_true_bool}  
     \tl_set:Nn \l__tikzcalendarnotes_msg_submodule_tl 
       {range not set}
 
@@ -1553,60 +1812,81 @@
    \bool_if:nT 
     {\l__tikzcalendarnotes_from_set_flag_bool && \l__tikzcalendarnotes_to_set_flag_bool}
     {
-      \__tikzcalendarnotes_try_insert_no_cntweek:ee {\l__tikzcalendarnotes_from_tl}{\l__tikzcalendarnotes_to_tl}  
+      \__tikzcalendarnotes_try_insert_no_cntweek:ee {\l__tikzcalendarnotes_from_key_tl}{\l__tikzcalendarnotes_to_key_tl}  
     }
   }
 
-\cs_new_protected:Npn \__tikzcalendarnotes_append_style:nn #1#2
-  {
-    \tl_if_blank:nF {#2}
-      {
-        \exp_args:Ne \pgfkeys 
-          {
-            tikz ,
-            #1 / .append~ style = {#2}
-          }
-      }
-  }
 
-\NewDocumentCommand{\calendarnotes}{m}
+\cs_new_protected:Npn \__tikzcalendarnotes_prepare_style:nn #1#2
   {
+
+    \pgfkeys{tikz , #1}
+
     \__tikzcalendarnotes_set_dim_constants:
-
+    
     \keys_set:nn
       {tikzcalendarnotes}
-      {defaults , #1}
-
-    \__tikzcalendarnotes_set_ifdates:e 
-      {\l__tikzcalendarnotes_dataset_tl}
-    
-    \__tikzcalendarnotes_append_style:nn 
-      {every~ month}
-      {\l__tikzcalendarnotes_month_style_tl}
+      {defaults , #2}
       
-    \__tikzcalendarnotes_append_style:nn 
-      {every~ day}
-      {\l__tikzcalendarnotes_day_style_tl}
-
-    \__tikzcalendarnotes_append_style:nn 
-      {every~ year}
-      {\l__tikzcalendarnotes_year_style_tl}
-      
-    \bool_set:Nn \l__tikzcalendarnotes_firstdraw_bool 
-      {\c_true_bool}
-      
-    \matrix[column~ sep=\l__tikzcalendarnotes_inter_month_space_tl , 
-            row~ sep=0.7*\l__tikzcalendarnotes_inter_month_space_tl] 
+    \tl_set:Ne \l__tikzcalendarnotes_begin_iso_tl 
       {
-        \__tikzcalendarnotes_matrix:nnnn
-          {\l__tikzcalendarnotes_year_tl}
-          {\l__tikzcalendarnotes_initial_tl}
-          {\l__tikzcalendarnotes_nmonths_tl}
-          {\l__tikzcalendarnotes_perline_tl} 
+        \l__tikzcalendarnotes_year_key_tl -
+        \l__tikzcalendarnotes_starting_at_key_tl - 01
+      }
+      
+  }
+
+
+\NewDocumentCommand{\calendarnotesprepare}{O{}m}
+  {
+    \__tikzcalendarnotes_prepare_style:nn 
+      {#1}{#2}
+  }
+
+\NewDocumentCommand{\calendarnotessetifs}{}
+  {
+    \__tikzcalendarnotes_set_ifdates:e 
+      {\l__tikzcalendarnotes_dataset_key_tl}
+  }
+
+\NewDocumentCommand{\calendarnotesdraw}{}
+  {
+    \__tikzcalendarnotes_draw_notes:e 
+      {\l__tikzcalendarnotes_dataset_key_tl}
+  }
+  
+\NewDocumentCommand{\calendarnotesmatrix}{}
+  {
+    \matrix[column~ sep=\l__tikzcalendarnotes_inter_month_space_key_tl pt, 
+            row~ sep=0.7*\l__tikzcalendarnotes_inter_month_space_key_tl pt] 
+      {
+        \__tikzcalendarnotes_month_matrix:nnnn
+          {\l__tikzcalendarnotes_year_key_tl}
+          {\l__tikzcalendarnotes_starting_at_key_tl}
+          {\l__tikzcalendarnotes_nmonths_key_tl}
+          {\l__tikzcalendarnotes_perline_key_tl} 
+      } ;
+  }  
+  
+\NewDocumentCommand{\calendarnotes}{O{}m}
+  {
+    \__tikzcalendarnotes_prepare_style:nn {#1}{#2}
+    
+    \__tikzcalendarnotes_set_ifdates:e 
+      {\l__tikzcalendarnotes_dataset_key_tl}
+
+    \matrix[column~ sep=\l__tikzcalendarnotes_inter_month_space_key_tl pt, 
+            row~ sep=0.7*\l__tikzcalendarnotes_inter_month_space_key_tl pt] 
+      {
+        \__tikzcalendarnotes_month_matrix:nnnn
+          {\l__tikzcalendarnotes_year_key_tl}
+          {\l__tikzcalendarnotes_starting_at_key_tl}
+          {\l__tikzcalendarnotes_nmonths_key_tl}
+          {\l__tikzcalendarnotes_perline_key_tl} 
       } ;
       
     \__tikzcalendarnotes_draw_notes:e 
-      {\l__tikzcalendarnotes_dataset_tl}
+      {\l__tikzcalendarnotes_dataset_key_tl}
 
   }
 
@@ -1620,30 +1900,85 @@
 %%%%%%%%%%%%%%%%%%
 
 
-%% original code , for reference
-%%    \ifnum\pgfcalendarifdateday=1\relax
-%%      \ifnum\pgfcalendarifdatemonth=1\relax\pgfcalendarmatchestrue\fi
-%%    \fi
-%%%		\ifnum\cal@FirstDraw=1\relax\pgfcalendarmatchestrue\gdef\cal@FirstDraw{0}\fi
+
+\cs_new_protected:Npn \__tikzcalendarnotes_test_jan_first: 
+  {
+    \int_compare:nNnT {\pgfcalendarifdateday} = {1}
+      {
+        \int_compare:nNnT {\pgfcalendarifdatemonth} = {1}
+          { \pgfcalendarmatchestrue }
+      }
+  }
+
 
 \cs_new_protected:Npn \__tikzcalendarnotes_test_year_start: 
   {
-    \bool_if:NTF \l__tikzcalendarnotes_firstdraw_bool
+    \bool_if:NTF \g__tikzcalendarnotes_firstdraw_bool
       { 
-        \bool_gset:Nn \l__tikzcalendarnotes_firstdraw_bool 
-          {\c_false_bool}
+        \bool_gset_false:N \g__tikzcalendarnotes_firstdraw_bool 
         \pgfcalendarmatchestrue 
       }
+      { \__tikzcalendarnotes_test_jan_first: }
+  }
+
+
+\cs_new_protected:Npn \__tikzcalendarnotes_test_week_start_or_first:n #1
+  {
+    \bool_lazy_or:nnTF 
       {
-        \int_compare:nNnT {\pgfcalendarifdateday} = {1}
+        \int_compare_p:nNn {\pgfcalendarifdateweekday} = {#1}
+      } 
+      {
+        \int_compare_p:nNn {\pgfcalendarifdateday} = {1}
+      }
+      { \pgfcalendarmatchestrue }
+      {}
+  }
+
+
+\cs_generate_variant:Nn \str_range:nnn {enn}
+
+\cs_new_protected:Npn \__tikzcalendarnotes_set_day_acro:NNn #1#2#3
+  {
+    \int_set:Nn \l_tmpa_int {#3}
+    \int_sub:Nn \l_tmpa_int {\l__tikzcalendarnotes_weeklist_delta_int}
+    \int_compare:nNnT {\l_tmpa_int} < {0}
+      {
+        \int_add:Nn \l_tmpa_int {7}
+      }   
+    \tl_set:Ne #1 {\str_range:enn {\pgfcalendarweekdayname{\int_use:N \l_tmpa_int}}{1}{2}}
+    \int_compare:nNnTF {\l_tmpa_int} > {4}
+      {
+        \int_compare:nNnTF {\l_tmpa_int} = {5}
           {
-            \int_compare:nNnT {\pgfcalendarifdatemonth} = {1}
-              { \pgfcalendarmatchestrue }
+            \tl_set:Nn #2 {@calnotes@saturday~ fmt}
           }
+          {
+            \tl_set:Nn #2 {@calnotes@sunday~ fmt}
+          }
+      }
+      {
+        \tl_set:Nn #2 {}
       }
   }
 
 
+\cs_new_protected:Npn \__tikzcalendarnotes_weeklist_set:nnnn #1#2#3#4
+  {
+    \int_set:Nn \l__tikzcalendarnotes_weeklist_delta_int {#1}
+    \tl_set:Nn \l__tikzcalendarnotes_weeklist_starts_on_tl {#2}
+    \tl_set:Nn \l__tikzcalendarnotes_weeklist_ends_on_tl {#3}
+    \int_set:Nn \l__tikzcalendarnotes_weeklist_starts_on_int {#4}
+    
+    \__tikzcalendarnotes_set_day_acro:NNn \l__tikzcalendarnotes_day_A_tl \l__tikzcalendarnotes_day_A_style_tl {0}
+    \__tikzcalendarnotes_set_day_acro:NNn \l__tikzcalendarnotes_day_B_tl \l__tikzcalendarnotes_day_B_style_tl {1}
+    \__tikzcalendarnotes_set_day_acro:NNn \l__tikzcalendarnotes_day_C_tl \l__tikzcalendarnotes_day_C_style_tl {2}
+    \__tikzcalendarnotes_set_day_acro:NNn \l__tikzcalendarnotes_day_D_tl \l__tikzcalendarnotes_day_D_style_tl {3}
+    \__tikzcalendarnotes_set_day_acro:NNn \l__tikzcalendarnotes_day_E_tl \l__tikzcalendarnotes_day_E_style_tl {4}
+    \__tikzcalendarnotes_set_day_acro:NNn \l__tikzcalendarnotes_day_F_tl \l__tikzcalendarnotes_day_F_style_tl {5}
+    \__tikzcalendarnotes_set_day_acro:NNn \l__tikzcalendarnotes_day_G_tl \l__tikzcalendarnotes_day_G_style_tl {6}
+
+  }
 
 %
 % make at letter needed due the many pfg variables/constants at use.
@@ -1658,89 +1993,220 @@
     \pgftransformxshift{\tikz@lib@cal@xshift}
   }
 
+\cs_new_protected:Npn \__tikzcalendarnotes_day_xshift:
+  {
+    \int_set:Nn \l_tmpa_int {\pgfcalendarcurrentweekday + \l__tikzcalendarnotes_weeklist_delta_int}
+    \int_compare:nNnT {\l_tmpa_int} > {6}
+      { \int_sub:Nn \l_tmpa_int {7} }
+    \pgftransformxshift{ \int_use:N\l_tmpa_int * \tikz@lib@cal@xshift }
+  }
 
 
-%% based on https://texample.net/changing-the-default-calendar-layout/
-%% based on https://tex.stackexchange.com/a/348628
+\cs_new_protected:Npn \__tikzcalendarnodes_daynames_draw:
+  {
+    \begin{scope}
+    \node[every~ day,every~ day~ name,\l__tikzcalendarnotes_day_A_style_tl]{\l__tikzcalendarnotes_day_A_tl};
+    \pgftransformxshift{ \tikz@lib@cal@xshift }
+    \node[every~ day,every~ day~ name,\l__tikzcalendarnotes_day_B_style_tl]{\l__tikzcalendarnotes_day_B_tl};
+    \pgftransformxshift{ \tikz@lib@cal@xshift }
+    \node[every~ day,every~ day~ name,\l__tikzcalendarnotes_day_C_style_tl]{\l__tikzcalendarnotes_day_C_tl};
+    \pgftransformxshift{ \tikz@lib@cal@xshift }
+    \node[every~ day,every~ day~ name,\l__tikzcalendarnotes_day_D_style_tl]{\l__tikzcalendarnotes_day_D_tl};
+    \pgftransformxshift{ \tikz@lib@cal@xshift }
+    \node[every~ day,every~ day~ name,\l__tikzcalendarnotes_day_E_style_tl]{\l__tikzcalendarnotes_day_E_tl};
+    \pgftransformxshift{ \tikz@lib@cal@xshift }
+    \node[every~ day,every~ day~ name,\l__tikzcalendarnotes_day_F_style_tl]{\l__tikzcalendarnotes_day_F_tl};
+    \pgftransformxshift{ \tikz@lib@cal@xshift }
+    \node[every~ day,every~ day~ name,\l__tikzcalendarnotes_day_G_style_tl]{\l__tikzcalendarnotes_day_G_tl};
+    \end{scope}
+    \pgftransformyshift{ -0.85*\tikz@lib@cal@yshift}
+  }
 
-%\def\cal@ymd#1:#2:#3:{#1-#2-#3}%
-%\def\cal@md#1:#2:#3:{\cal@Year-#1-#2}%
-%\def\cal@datesplit#1-#2-#3-#4#5#6{#5#1:#2:#3:}%
-%\def\cal@dateexpand#1{\expandafter\cal@datesplit\expanded{#1}--\cal@ymd\cal@md\empty}%
-%
-%
-%\newcommand{\cal@datetest}[1]{%
-%	\pgfcalendardatetojulian{\cal@dateexpand{#1}}{\pgfutil@tempcnta}%
-%	\ifnum\pgfcalendarifdatejulian=\pgfutil@tempcnta\relax\pgfcalendarmatchestrue\fi%
-%}
 
 \pgfkeys{tikz , 
 	calendar~ notes/.style =
     {
   		remember~ picture , 
   		every~ calendar/.style =
+        { week~ starts~ on~ x } ,
+      month~ text = {\%mt} ,
+      every~ month/.style =
         {
-          week~ starts~ on~ sunday ,
-  		  } ,
-      %
-      year~ text = 
-        { \l__tikzcalendarnotes_year_text_tl } ,
-      month~ text =
-        { \l__tikzcalendarnotes_month_text_tl } , 
+          font = \bfseries\itshape ,
+        } ,
       day~ text = 
-        { \l__tikzcalendarnotes_day_text_tl } , 
+        { \%d0 } ,
   	} , 
-    %
-    % hidden style for drawing the year , 
-    % it draws it for January and "first month drawn" (which depends on a _bool variable)
-	/pgf/calendar/@start~ @of~ @year/.code =
-    { \__tikzcalendarnotes_test_year_start: } , 
-    %
-    %
-  draw~ year~ at~ start/.style = 
+  }
+  
+\pgfkeys{tikz , 
+    % 'execute before day scope' is cumulative. 'new style' needed to fully change calendar's behaviour
+  day~ names~ on~ top/.style =
+    {
+     	week~ starts~ on~ x/.append~ style =
+        {
+          execute~ before~ day~ scope =
+            {
+              \ifdate{ day~ of~ month = 1 }
+                { \__tikzcalendarnodes_daynames_draw: }
+                {}
+            } ,
+        } ,
+    } ,
+  every~ day~ name/.style =
+    {
+      font = {\scriptsize\itshape}
+    } ,
+  }
+  
+\pgfkeys{tikz , 
+	week~ starts~ on~ x/.style =
     {
       execute~ before~ day~ scope =
         {
-          \ifdate{@start~ @of~ @year}
+    			\ifdate{ day~ of~ month = 1 }
+            { % On first of month , except when first date in calendar.
+      				\ifdate{ equals = \pgfcalendarbeginiso }
+                {}
+                { \pgftransformyshift{ -\tikz@lib@cal@month@yshift } }
+    			  }
+            {}
+        } , 
+        % glancing from the source code.
+      tikz@lib@cal@width = 7 , 
+      %
+      execute~ at~ begin~ day~ scope =
+        { \__tikzcalendarnotes_day_xshift: } , 
+      execute~ after~ day~ scope =
+        {      % shift to the next line , if end of weeklist
+          \ifdate{ \l__tikzcalendarnotes_weeklist_ends_on_tl }
+            { \pgftransformyshift{ -\tikz@lib@cal@yshift } }
+            {}
+        } , 
+    } , 
+    %
+    %
+  week~ starts~ monday/.code =
+    {
+      \__tikzcalendarnotes_weeklist_set:nnnn{0}{Monday}{Sunday}{0}
+    } ,
+  week~ starts~ sunday/.code =
+    {
+      \__tikzcalendarnotes_weeklist_set:nnnn{1}{Sunday}{Saturday}{6}
+    } ,
+  week~ starts~ sunday ,
+    %
+  }
+  
+\pgfkeys{tikz , 
+  @calnotes@sunday~ fmt/.style = 
+    {} ,
+    %
+  every~ sunday/.style = 
+    {
+      every~ calendar/.append~ style =
+        {
+          if = {(Sunday)~ [#1]}
+        } ,
+      @calnotes@sunday~ fmt/.append~ style = {#1} ,
+    } ,
+    %
+  @calnotes@saturday~ fmt/.style =
+    {} ,
+    %
+  every~ weekend/.style = 
+    {
+      every~ calendar/.append~ style =
+        {
+          if = {(weekend)~ [#1]}
+        } ,
+      @calnotes@saturday~ fmt/.append~ style = {#1} ,
+      @calnotes@sunday~ fmt/.append~ style = {#1} ,
+    } ,
+  }
+  
+  
+
+\pgfkeys{tikz , 
+    % hidden style for drawing the year , 
+    % it draws it for January and "first month drawn" (which depends on a _bool variable)
+	/pgf/calendar/@calnotes@start~ @of~ @year/.code =
+    { \__tikzcalendarnotes_test_year_start: } , 
+    %
+   
+  @calnotes@set~ firstdraw~ flag~ @true/.code =
+    {
+      \bool_gset_true:N \g__tikzcalendarnotes_firstdraw_bool 
+          %{\c_true_bool}
+    } ,
+    
+  @calnotes@set~ firstdraw~ flag~ @false/.code =
+    {
+      \bool_gset_false:N \g__tikzcalendarnotes_firstdraw_bool 
+          %{\c_false_bool}
+    } ,
+    
+  @calnotes@set~ year~ policy~ true@/.code =
+    {
+      \bool_set_true:N \l__tikzcalendarnotes_year_policy_set_bool
+      %\bool_show:N \l__tikzcalendarnotes_year_policy_set_bool
+    } ,
+    
+  @calnotes@set~ year~ policy~ if~ not~ set@/.code =
+    {
+      \bool_if:NF \l__tikzcalendarnotes_year_policy_set_bool
+        {
+          \bool_set_true:N \l__tikzcalendarnotes_year_policy_set_bool
+          \pgfkeys{tikz,year~ label~ by~ january~ and~ start}
+        }
+    } ,
+    
+  @calnotes@set~ year~ label~ true@/.code =
+    {
+      \bool_set_true:N \l__tikzcalendarnotes_year_label_set_bool
+      %\bool_show:N \l__tikzcalendarnotes_year_policy_set_bool
+    } ,
+    
+  @calnotes@set~ year~ label~ if~ not~ set@/.code =
+    {
+      \bool_if:NF \l__tikzcalendarnotes_year_label_set_bool
+        {
+          \bool_set_true:N \l__tikzcalendarnotes_year_label_set_bool
+          \pgfkeys{tikz,year~ label~ left}
+        }
+    } ,
+    
+  year~ label~ by~ january~ and~ start/.style = 
+    {
+      @calnotes@set~ firstdraw~ flag~ @true ,
+      @calnotes@set~ year~ policy~ true@ ,
+      @calnotes@set~ year~ label~ if~ not~ set@ ,
+      execute~ before~ day~ scope =
+        {
+          \ifdate{@calnotes@start~ @of~ @year}
             { \__tikzcalendarnotes_drawyear: }
             {}
         } , 
-      every~ year/.append~ style =
-        { 
-          font = \l__tikzcalendarnotes_year_font_tl , 
+    } ,
+    
+  year~ label~ by~ january~ only/.style =
+    {
+      @calnotes@set~ firstdraw~ flag~ @false ,
+      @calnotes@set~ year~ policy~ true@ ,
+      @calnotes@set~ year~ label~ if~ not~ set@ ,
+      execute~ before~ day~ scope =
+        {
+          \ifdate{@calnotes@start~ @of~ @year}
+            { \__tikzcalendarnotes_drawyear: }
+            {}
         } , 
     } ,
-	year~ label~ left/.style =
-    {
-      draw~ year~ at~ start ,
-      every~ year/.append~ style =
-        { 
-          anchor = north~ east ,
-        } , 
-  	} , 
-	year~ label~ left~ vertical/.style =
-    {
-      draw~ year~ at~ start ,
-      every~ year/.append~ style =
-        { 
-          anchor = south ,
-          rotate = 90 ,
-        } , 
-  	} , 
-    %
-	year~ label~ left~ corner/.style =
-    {
-      draw~ year~ at~ start ,
-      every~ year/.append~ style =
-        { 
-          anchor = south ,
-          rotate = 45 ,
-        } , 
-  	} , 
-    %
+    
     % Style forcing an year label.
-	draw~ year~ every~ month/.style=
+	year~ label~ every~ month/.style=
     {
+      @calnotes@set~ year~ policy~ true@ ,
+      @calnotes@set~ year~ label~ if~ not~ set@ ,
   		execute~ before~ day~ scope =
         {
   			  \ifdate{day~ of~ month = 1}
@@ -1748,47 +2214,118 @@
             {}
         }
     } , 
-    %
-    % 'execute before day scope' is cumulative. 'new style' needed to fully change calendar's behaviour
-	week~ starts~ on~ sunday/.style =
+  
+	year~ label~ left/.style =
     {
-      execute~ before~ day~ scope =
+      @calnotes@set~ year~ label~ true@ ,
+      @calnotes@set~ year~ policy~ if~ not~ set@ ,
+      every~ year/.append~ style =
+        { 
+          anchor = north~ east ,
+        } , 
+  	} , 
+  
+	year~ label~ left~ vertical/.style =
+    {
+      @calnotes@set~ year~ label~ true@ ,
+      @calnotes@set~ year~ policy~ if~ not~ set@ ,
+      every~ year/.append~ style =
+        { 
+          anchor = south ,
+          rotate = 90 ,
+        } , 
+  	} , 
+    
+	year~ label~ left~ corner/.style =
+    {
+      @calnotes@set~ year~ label~ true@ ,
+      @calnotes@set~ year~ policy~ if~ not~ set@ ,
+      every~ year/.append~ style =
+        { 
+          anchor = south ,
+          rotate = 45 ,
+        } , 
+  	} , 
+  
+  every~ year/.style = 
+    { font = \Large\sffamily\bfseries, green!50!black } ,
+  }
+  
+\pgfkeys{tikz , 
+  every~ mark/.style =
+    { thin , gray } ,
+  every~ remark/.style =
+    { 
+      font = 
+        \fontsize{3.5}{4.2}
+        \selectfont 
+    } ,    
+  every~ counter/.style =
+    {
+      every~ remark
+    } ,
+  keep~ counters/.code =
+    {
+      \bool_set_true:N \l__tikzcalendarnotes_keep_counters_pgfkey_bool
+    } ,
+  @calnotes@note@fontsize/.code = 
+    {
+      \tl_set:Nn \l__tikzcalendarnotes_notes_fontsize_pgfkey_tl {#1}
+    } ,
+  every~ note/.style =
+    { 
+      font = 
+        \fontsize{4.5}{4.95}
+        \selectfont 
+    } ,    
+  @calnotes@note@fontsize = 4.5 ,
+  remarks~ font size/.style =
+    {
+      every~ remark/.append~ style =
         {
-    			\ifdate{ day~ of~ month = 1 }
-            {
-      				\ifdate{ equals = \pgfcalendarbeginiso }
-                {}
-                { % On first of month , except when first date in calendar.
-        					\pgftransformyshift{ -\tikz@lib@cal@month@yshift }
-      				  }
-    			  }
-            {}
-        } , 
-      execute~ at~ begin~ day~ scope =
-        { % TikZ's Monday is 0 and Sunday is 6 ,
-          % \c@pgf@counta is:
-          % (\pgfcalendercurrentweekday + 1) % 7
-          \ifnum\pgfcalendarcurrentweekday=6
-            \c@pgf@counta=0
-          \else
-            \c@pgf@counta=\pgfcalendarcurrentweekday
-            \advance\c@pgf@counta by 1
-          \fi
-                % Shift to the right position for the day.
-          \pgftransformxshift{ \c@pgf@counta * \tikz@lib@cal@xshift }
-        } , 
-      execute~ after~ day~ scope =
-        {      % shift to the next line , if Saturday.
-          \ifdate{ Saturday }
-          {
-            \pgftransformyshift{ -\tikz@lib@cal@yshift }
-          }
-          {}
-        } , 
-        % glancing from the source code.
-      tikz@lib@cal@width = 7 , 
-      if = {(Sunday)~ [\l__tikzcalendarnotes_sunday_color_tl]} , 
-    } ,  %% end of "week starts sunday" style
+          font = 
+            \fontsize{#1}{\fp_eval:n {1.1*#1}}
+            \selectfont 
+        }
+    } ,
+  remarks~ font size/.value~ required ,
+  %
+  notes~ font size/.style =
+    {
+      @calnotes@note@fontsize = {#1} ,
+      every~ note/.append~ style =
+        {
+          font = 
+            \fontsize{#1}{\fp_eval:n {1.1*#1}}
+            \selectfont 
+        }
+    } ,
+  notes~ font size/.value~ required ,
+  %
+  }
+  
+\pgfkeys{tikz , 
+  Xshift~ adjust/.code =
+    {
+      \tl_set:Nn \l__tikzcalendarnotes_remark_Xshift_adj_pgfkey_tl {#1 pt}
+    } ,
+  Xshift~ adjust/.value~ required ,
+  %
+  Yshift~ adjust/.code =
+    {
+      \tl_set:Nn \l__tikzcalendarnotes_remark_Yshift_adj_pgfkey_tl {#1 pt}
+    } ,
+  Yshift~ adjust/.value~ required ,
+  %
+  radius~ adjust/.code =
+    {
+      \tl_set:Nn \l__tikzcalendarnotes_radius_adj_pgfkey_tl {#1 pt}
+    } ,
+  radius~ adjust/.value~ required ,
+  %
+  radius~ adjust = 0,
+  Xshift~ adjust = 0,
+  Yshift~ adjust = 0,
  }
 
 

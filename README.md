@@ -5,7 +5,7 @@ Template for LaTeX packages ...
 
 tikz calendar marks and notes
 
-For more details ,  see the documentation ,
+For more details , see the documentation ,
 [tikzcalendarnotes.pdf](http://mirrors.ctan.org/macros/latex/contrib/tikzcalendarnotes/doc/tikzcalendarnotes.pdf)
 
 --------------
@@ -21,6 +21,9 @@ The stable version is available at [CTAN](https://ctan.org/pkg/tikzcalendarnotes
 ### Stable version
 Just place
 ```latex
+  \usepackage{tikz}
+  \usetikzlibrary{calendar}
+  ...
   \usepackage{tikzcalendarnotes}
 ```
 
@@ -68,4 +71,4 @@ The Current Maintainer of this work is Alceu Frigeri
 ## Change log
 
 * Version 1.0 (this)
-    - Initial setup.
+    - Initial release by CTAN.

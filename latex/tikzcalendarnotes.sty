@@ -12,7 +12,7 @@
 %%
 %% The Current Maintainer of this work is Alceu Frigeri
 %%
-%% This is version {1.0} {2025/01/33}
+%% This is version {1.0} {2025/03/03}
 %%
 %% The list of files that compose this work can be found in the README.md file at
 %% https://ctan.org/pkg/tikzcalendarnotes
@@ -22,7 +22,7 @@
 
 \ProvidesExplPackage
     {tikzcalendarnotes}
-    {2025/01/33}
+    {2025/03/03}
     {1.0}
     {tikzcalendarnotes - calendar marks and notes}
 
@@ -36,7 +36,7 @@
   {
      name        .code:n = {tikzcalendarnotes} ,
      prefix      .code:n = {tikzcalendarnotes} ,
-     date        .code:n = {2025/01/33} ,
+     date        .code:n = {2025/03/03} ,
      version     .code:n = {1.0} ,
      description .code:n = {tikzcalendarnotes - calendar marks and notes}
   }
@@ -1011,15 +1011,6 @@
 
 
 
-
-%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%
-%%
-%%
-%%
-%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%
 %%
@@ -1075,7 +1066,7 @@
               }
           }
       }
-    %\int_compare:nNnTF 
+
     \l__tikzcalendarnotes_tmpa_tl
   }
   
@@ -1088,11 +1079,7 @@
 \cs_new_protected:Npn \__tikzcalendarnotes_ifdate_case_counting_tl_set:Nnnnnnn #1#2#3#4#5#6#7
   {
     \bool_if:NF \l__tikzcalendarnotes_keep_counters_pgfkey_bool
-      { 
-%        \int_show:c {#3}
-        \int_gzero:c {#3} 
- %       \int_show:c {#3}
-      }
+      { \int_gzero:c {#3} }
       
     \tl_put_right:Nn #1 
       {
@@ -1121,23 +1108,13 @@
 
 \cs_new_protected:Npn \__tikzcalendarnotes_pgfcalifdate_case_counting_tl_set:Nnnnnnn #1#2#3#4#5#6#7
   {
-%    \bool_if:NF \l__tikzcalendarnotes_keep_counters_pgfkey_bool
-%      { 
-%        \int_show:c {#3}
-%        \int_gzero:c {#3} 
-%        \int_show:c {#3}
-%      }
       
     \tl_put_right:Nn #1 
       {
         \pgfcalendarifdate{##1}{#2}
           {
             \int_compare:nNnT {\int_use:c{#3}} = {0}
-              { \int_gincr:c {#3} }
-              
-%            \tl_set:Nn \l_tmpa_tl {##1 ~::~ #2 ~::~ #3 ~::~ #7 }
-%            \tl_show:N \l_tmpa_tl
-%            \int_show:c {#3} 
+              { \int_gincr:c {#3} }             
             \tl_gput_right:cn {#7}
               {
                 \draw (\pgfcalendarsuggestedname.#4 |-  \l__tikzcalendarnotes_cal_name_key_tl - \pgfcalendarifdateyear - \pgfcalendarifdatemonth - 01.#4) 
@@ -1430,7 +1407,7 @@
 
 %% from https://tex.stackexchange.com/questions/37709/how-can-i-know-if-a-node-is-already-defined/37713#37713
 %% yickes
-%% non portable, error prone if the underling pgf scheme changes... :/
+%% non portable, error prone if the underlining pgf scheme changes... :/
 %%
 \makeatletter
 \cs_new_protected:Npn \__tikzcalendarnotes_setflag_ifdatenode_exist:Nn #1#2
@@ -2149,7 +2126,6 @@
   @calnotes@set~ year~ policy~ true@/.code =
     {
       \bool_set_true:N \l__tikzcalendarnotes_year_policy_set_bool
-      %\bool_show:N \l__tikzcalendarnotes_year_policy_set_bool
     } ,
     
   @calnotes@set~ year~ policy~ if~ not~ set@/.code =
@@ -2164,7 +2140,6 @@
   @calnotes@set~ year~ label~ true@/.code =
     {
       \bool_set_true:N \l__tikzcalendarnotes_year_label_set_bool
-      %\bool_show:N \l__tikzcalendarnotes_year_policy_set_bool
     } ,
     
   @calnotes@set~ year~ label~ if~ not~ set@/.code =

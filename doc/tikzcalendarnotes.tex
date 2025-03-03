@@ -15,7 +15,7 @@
 %%
 %% The Current Maintainer of this work is Alceu Frigeri
 %%
-%% This is version {1.0} {2025/01/33}
+%% This is version {1.0} {2025/03/03}
 %%
 %% The list of files that compose this work can be found in the README.md file at
 %% https://ctan.org/pkg/tikzcalendarnotes
@@ -289,7 +289,7 @@ This will create a calendar as a (\tsobj[pkg]{tikz}) matrix, one month per cell.
 
 The calendar range, starting date, arrangement are set by the \tsobj[marg]{key-value list}, as below.
 \end{codedescribe}
-\begin{describelist}{option}
+\begin{describelist*}{option}
 \describe{year}{The year. If not given \tsobj{\year} will be used.}
 \describe{starting at}{The calendar initial month. If not given $1$ (January) will be assumed.}
 \describe{number of months}{The number of months for the calendar. Defaults to 12.}
@@ -302,7 +302,7 @@ The calendar range, starting date, arrangement are set by the \tsobj[marg]{key-v
 \describe{month spacing}{Inter month spacing to be used (in pt). It defaults to 20 (\tsobj[key]{with notes}) and 5 (\tsobj[key]{without notes}).}
 \describe{data set}{A comma separated list of \tsobj[marg]{data set} to be used. Defaults to ``default''.}
 \describe{name}{The prefix name to be used by the calendar library. Defaults to ``cal''.}
-\end{describelist}
+\end{describelist*}
 
 
 \begin{tsremark}
@@ -758,11 +758,9 @@ Some text.
 
 
 
-
-
 \newpage
 
-Lastly, in case ones wants an expanded view of a single, out of order, month you can use the \tsobj[key]{starting at} from \tsobj{\setcountingweeks} (note that, if the \tsobj[key]{from,to} keys are the same, it will just redefine the already existent counter, and not create a new one.
+Lastly, in case ones wants an expanded view of a single, out of order, month you can use the \tsobj[key]{starting at} from \tsobj{\setcountingweeks}. (NB.: since the \tsobj[key]{from,to} keys are the same, it won't create a new one, but just redefine the existing one.)
 
 \begin{codestore}[demoD]
 \setcountingweeks[dataset A]{from=2025-04-07,to=2025-08-29,color=red,starting at=9}
@@ -800,43 +798,8 @@ Lastly, in case ones wants an expanded view of a single, out of order, month you
 
 ~
 
-
-
 \tsresult*
   {demoD}
 
-%
-%\begin{codestore}[demoA]
-%some code
-%\end{codestore}
-
-%\tscode
-%\tsdemo*[emph={draw ,none} ,emph2={path} ,emph3={name} ,basicstyle={\scriptsize\ttfamily} ,numbers=left]{demoA}
-%\tsresult
-
-%\ExplSyntaxOn
-%\tl_new:N \l__xxx_tl
-%\tl_set:Nn \l__xxx_tl {5em}
-%
-%\fp_eval:n {2 * \l__xxx_tl} \par
-%
-%
-%\fp_eval:n {2 * (5em)} \par
-%
-%\fp_eval:n {2 * (5pt)} \par
-%
-%\fp_eval:n {2 * (5)} \par
-%
-%\makeatletter
-%
-%    {
-%      \tl_gset:Ne \g_tmpa_tl {\f@size}
-%      \tl_set:Ne \l_tmpa_tl {\fp_eval:n {1ex}}
-%      \tl_show:N \g_tmpa_tl
-%      \tl_show:N \l_tmpa_tl
-%    }
-%
-%\makeatother
-%\ExplSyntaxOff
 
 \end{document} 

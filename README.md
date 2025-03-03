@@ -4,7 +4,7 @@ tikzcalendarnotes
 This package offers a "calendar arrangement" (atop of the TikZ calendar library) and  provides a set of commands aimed at highlighting/marking dates.
 
 For more details , see the documentation ,
-[tikzcalendarnotes.pdf](http://mirrors.ctan.org/macros/latex/contrib/tikzcalendarnotes/doc/tikzcalendarnotes.pdf)
+[tikzcalendarnotes.pdf](http://mirrors.ctan.org/graphics/pgf/contrib/tikzcalendarnotes/doc/tikzcalendarnotes.pdf)
 
 --------------
 

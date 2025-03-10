@@ -68,5 +68,9 @@ The Current Maintainer of this work is Alceu Frigeri
 
 ## Change log
 
-* Version 1.0 (this)
+* Version 1.0a (this)
+    - Documentantion: some emphasis towards ```pgfmanual``` standard key/styles. (issue #1).
+
+
+* Version 1.0 
     - Initial release by CTAN.

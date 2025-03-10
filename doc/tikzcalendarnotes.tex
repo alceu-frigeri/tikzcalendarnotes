@@ -1,8 +1,8 @@
 % !TEX program = pdflatex
 % !TEX ext =  --interaction=nonstopmode --enable-etex --enable-write18
-% !BIB program = none
+% !BIB program = biber
 %%%==============================================================================
-%% Copyright 2024-present by Alceu Frigeri
+%% Copyright 2025-present by Alceu Frigeri
 %%
 %% This work may be distributed and/or modified under the conditions of
 %%
@@ -15,7 +15,7 @@
 %%
 %% The Current Maintainer of this work is Alceu Frigeri
 %%
-%% This is version {1.0} {2025/03/03}
+%% This is version {1.0a} {2025/03/10}
 %%
 %% The list of files that compose this work can be found in the README.md file at
 %% https://ctan.org/pkg/tikzcalendarnotes
@@ -25,6 +25,9 @@
 \RequirePackage[verbose,a4paper,marginparwidth=28mm,top=3cm,bottom=1.5cm,hmargin={45mm,25mm},marginparsep=2.5mm,columnsep=10mm,asymmetric]{geometry}
 \usepackage{codedescribe}
 \usepackage{enumitem}
+
+\RequirePackage[backend=biber]{biblatex}
+\addbibresource{tikzcalendarnotes.bib}
 
 %\RequirePackage[verbose ,a4paper ,marginparwidth=27.5mm ,top=2.5cm ,bottom=1.5cm ,hmargin={40mm ,20mm} ,marginparsep=2.5mm ,columnsep=10mm ,asymmetric]{geometry}
 %\usepackage{codedescribe}
@@ -96,7 +99,7 @@ Ti\emph{k}Z's \tsobj[pkg]{calendar}'s library is extremely flexible, allowing al
 
 This package provides a set of commands ( \tsobj{\setcountingweeks,\suppresscouting,\setdates,\setranges,\sethighlightdates} ) aimed at  highlighting/marking dates. And a command, \tsobj{\calendarnotes} to typeset such annotated calendar.
 
-Those markings/annotations can be organized as separate ``data sets'', so that, when producing the final calendar, one can choose/select which ``data sets'' will be active, vi\-à-viz, taken in account.
+Those markings/annotations can be organized as separate ``data sets'', so that, when producing the final calendar, one can choose/select which ``data sets'' will be active, viz-à-viz, taken in account.
 
 In the following commands, a certain ``jargon'' is used, taking the following example (which is scaled down to the size of this doc). The text over the $14$ is called a ``remark'', whilst the red circle (could be a square) is called a ``mark''. The text below the same date is just called a ``note''. Finally, those small numbers, to the left, are ``week counters''.
 
@@ -285,7 +288,7 @@ An error is raised if \tsobj[oarg]{dataset} doesn't exists.
 \begin{codesyntax}%
 \tsmacro{\calendarnotes}[pgfkeys]{key-value list}
 \end{codesyntax}
-This will create a calendar as a (\tsobj[pkg]{tikz}) matrix, one month per cell. \tsobj[oarg]{pgfkeys} are any valid pgfkey (not just the ones added by this package).
+This will create a calendar as a (\tsobj[pkg]{tikz}) matrix, one month per cell. \tsobj[oarg]{pgfkeys} are any valid pgfkey, not just the ones added by this package (see \cite{TIKZPGF:3.1}, specially section Calendar Library, under Libraries).
 
 The calendar range, starting date, arrangement are set by the \tsobj[marg]{key-value list}, as below.
 \end{codedescribe}
@@ -331,7 +334,7 @@ Note that, the user is supposed to construct/draw the calendar between the \tsob
 
 
 \section{Ti{\itshape  k}Z Styles}\label{tikz-styles}
-A few \tsobj[pkg]{TikZ} styles are defined, to work together with the ones from the \tsobj[pkg]{calendar} library. A few of them are about ``calendar arrangement'' (see the \tsobj[pkg]{pgfmanual}), like \tsobj[key]{calendar notes, week starts on x}, others are about adding year/week list labels, like \tsobj[key]{year label , day names on top }. And  others are for formatting/styling.
+A few \tsobj[pkg]{TikZ} styles are defined, to work together with the ones from the \tsobj[pkg]{calendar} library. A few of them are about ``calendar arrangement'', like \tsobj[key]{calendar notes, week starts on x}, others are about adding year/week list labels, like \tsobj[key]{year label , day names on top }. And  others are for formatting/styling. See the \tsobj[pkg]{pgfmanual} \cite{TIKZPGF:3.1} for a complete list of possible keys, under section \emph{Calendar Library}.
 
 \begin{tsremark}
 all keys are defined under the \tsobj[key]{/tikz/} ``family''. For instance \tsverb{\pgfkeys{tikz,...}} if using the \tsverb{\pgfkeys} directly.
@@ -644,7 +647,7 @@ Then, for instance, one can create a calendar (\tsobj{\calendarnotes}) with only
   \calendarnotes
     [
       calendar notes,
-      month label above centered,
+      month label above centered, % standard key from the Calendar Library (see pgfmanual)
       year label left corner,
       day names on top,
       every sunday=blue
@@ -680,10 +683,10 @@ Likewise, one can construct a calendar piecewise, note the \tsobj[key]{keep coun
 \begin{tikzpicture}
   \calendarnotes
     [ 
-      calendar notes,
-      month label above centered,
-      %year label left corner,
-      day names on top,
+      calendar notes ,
+      month label above centered , % standard key from the Calendar Library (see pgfmanual)
+      %year label left corner ,
+      day names on top ,
       every sunday=blue 
     ]
     { 
@@ -699,11 +702,11 @@ Some text.
 \begin{tikzpicture}
   \calendarnotes
     [ 
-      calendar notes,
-      month label above centered,
-      %year label left corner,
-      day names on top,
-      every sunday=blue,
+      calendar notes ,
+      month label above centered , % standard key from the Calendar Library (see pgfmanual)
+      %year label left corner ,
+      day names on top ,
+      every sunday=blue ,
       keep counters
     ]
     { 
@@ -721,11 +724,11 @@ Some text.
 \begin{tikzpicture}
   \calendarnotes
     [ 
-      calendar notes,
-      month label above centered,
-      %year label left corner,
-      day names on top,
-      every sunday=blue,
+      calendar notes ,
+      month label above centered , % standard key from the Calendar Library (see pgfmanual)
+      %year label left corner ,
+      day names on top ,
+      every sunday=blue ,
       keep counters
     ]
     { 
@@ -767,11 +770,11 @@ Lastly, in case ones wants an expanded view of a single, out of order, month you
 \begin{tikzpicture}
   \calendarnotes
     [ 
-      calendar notes,
-      month label above centered,
-      %year label left corner,
-      day names on top,
-      every sunday=blue,
+      calendar notes ,
+      month label above centered , % standard key from the Calendar Library (see pgfmanual)
+      %year label left corner ,
+      day names on top ,
+      every sunday=blue ,
       keep counters
     ]
     { 
@@ -801,5 +804,6 @@ Lastly, in case ones wants an expanded view of a single, out of order, month you
 \tsresult*
   {demoD}
 
+\printbibliography
 
 \end{document} 

@@ -1,0 +1,110 @@
+% !TEX program = pdflatex
+% !TEX ext =  --interaction=nonstopmode --enable-etex --enable-write18
+% !BIB program = none
+%%%==============================================================================
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{calendar}
+
+%\RequirePackage{etoolbox}
+%\RequirePackage{anyfontsize}
+%\RequirePackage{relsize}
+\RequirePackage{lmodern}
+
+\usepackage{tikzcalendarnotes}
+
+\usepackage[active ,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+
+
+\begin{document}
+
+
+
+\defnewdataset{cal acadêmico}
+
+\setdates
+  {
+    date=2025-01-04 , color=blue ,
+    date=2025-01-05 , color=green    
+  }
+\setdates
+  {
+    date=2025-01-06 , color=red
+  }
+\sethldates
+  {
+    color=brown , dates={2025-01-14 ,2025-01-21 } ,
+    color=blue , dates={2025-01-29 ,2025-02-14}
+  }
+\setdates[cal acadêmico]
+  {
+    date=2025-01-27 , remark=does it works? , north west , notes={some ref. text  and some more something new}
+  }
+\setdates[cal acadêmico]
+  {
+    date=2025-01-01 , remark=does it works? , notes={some\\ref. text\\and some more}
+  }
+\setdates[cal acadêmico]
+  {
+    date=2025-01-10 , remark=does it works? , notes={some\\ref. text\\and some more} , circle , rectangle
+  }
+\setdates[cal acadêmico]
+  {
+    date=2025-01-30 , remark=does it works? , notes={some\\ref. text\\and some more} , circle , draw style={thick , red} , remark style={red , thick}
+  }
+\setdates[cal acadêmico]
+  {
+    date=2025-01-31 , color=green , remark=does it works? ,
+    notes={some\\ref. text\\and some more} , rectangle , draw style=red
+  }
+\setranges[cal acadêmico]
+  {
+    from=2025-01-22 , to=2025-01-25 , color=red , circle , rectangle ,
+    remark=some text , draw style={thick ,red} , remark style={yellow ,red ,thick} ,
+    from=2025-01-13 , to=2025-01-15 , circle ,
+  }
+
+%\setranges[cal acadêmico]{from=2025-01-22 ,north west ,color=blue ,to=2025-01-25 ,circle ,rectangle ,remark=some text , draw style={thick ,green} , remark style={yellow ,red ,thick}}
+
+\setcountingweeks
+  {
+    from=2025-01-07 , to=2025-01-28 , up
+  }
+\setcountingweeks
+  {
+    from=2025-02-03 , to=2025-02-17 , down
+  }
+\setcountingweeks
+  {
+    from=2025-02-10 , to=2025-02-24 , center , color = red
+  }
+\suppresscounting
+  {
+    from=2025-01-13 , to=2025-01-17
+  }
+
+\begin{tikzpicture}[calendar notes]
+  \calendarnotes
+    {
+      data set={cal acadêmico ,default} ,
+%      year=2024 ,
+%      starting month=11 ,
+%      number of months=12 ,
+      per line=4 ,
+      name=XyZ ,
+      with notes ,
+      day spacing = 5em ,
+      week spacing = 10ex ,
+      sunday color = brown ,
+%      year style = red ,
+%      year font = \Large\sffamily ,
+%      month text = \textbf{\textit{\%mt}} ,
+    }
+\end{tikzpicture}
+
+
+\end{document}
+

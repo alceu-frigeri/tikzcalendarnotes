@@ -1,0 +1,110 @@
+% !TEX program = pdflatex
+% !TEX ext =  --interaction=nonstopmode --enable-etex --enable-write18
+% !BIB program = none
+%%%==============================================================================
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{calendar}
+
+%\RequirePackage{etoolbox}
+%\RequirePackage{anyfontsize}
+%\RequirePackage{relsize}
+\RequirePackage{lmodern}
+
+\usepackage{tikzcalendarnotes}
+
+\usepackage[active ,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+
+
+\begin{document}
+
+
+
+%\defnewdataset{cal acadêmico}
+\defnewdataset{academic year 2023}
+
+\sethldates[academic year 2023] %holidays
+  {
+    dates={06-03,06-08,09-07,10-12,11-02,12-25,2024-02-02,2024-02-12,2024-02-13,2024-02-14}
+  }
+  
+  
+\setdates[academic year 2023]
+  {
+    date = 2023-05-15 , circle , rectangle , remark = 23/I ,
+    date = 2023-09-16 , circle , rectangle , remark = 23/I ,
+    date = 2023-10-09 , circle , rectangle , remark = 23/II ,
+    date = 2024-02-24 , circle , rectangle , remark = 23/II ,
+  }
+\setcountingweeks[academic year 2023]
+  {
+    from = 2023-05-15 , to = 2023-09-16 , up , color=gray ,
+  }
+\setcountingweeks[academic year 2023]
+  {
+    from = 2023-10-09 , to = 2024-02-24 , up , color=gray ,
+  }
+\suppresscounting[academic year 2023]
+  {
+    from = 2023-12-26 , to = 2024-01-06 ,
+  }
+\setranges[academic year 2023] %recesso
+  {
+    from = 2023-12-26 , to = 2024-01-06 , color=lightgray
+  }
+
+\setcountingweeks[academic year 2023]  %afastamento do aluno
+  {
+    from = 2023-11-30 , to = 2024-03-03 , center , color = red ,
+  }
+
+\setcountingweeks[academic year 2023]  %afastamento do aluno
+  {
+    from = 2024-03-04 , to = 2024-09-05 , down , color = red ,
+  }
+\setcountingweeks[academic year 2023]  %afastamento do aluno
+  {
+    from = 2043-09-06 , to = 2024-09-28 , center , color = red ,
+  }
+
+
+  
+\setdates[academic year 2023]
+  {
+    date = 2023-11-30 , circle , draw style = red , remark = Afast. , remark style = red ,
+    date = 2024-03-03 , circle , draw style = red , remark = Afast. , remark style = red ,
+  }  
+
+%\suppresscounting[academic year 2023]
+%  {
+%    from = 2023-10-20 , to = 2023-10-24
+%  }
+\setranges[academic year 2023]
+  {
+    from = 2023-11-06 , to = 2023-11-11 ,  color = lightgray , remark = Acad.
+  }
+  
+
+\begin{tikzpicture}[calendar notes,
+        year label left corner,
+        month label above centered,
+        weekday names on top,
+        every sunday = {blue},
+        list starts sunday ,
+        ]
+  \calendarnotes
+    {
+      data set={academic year 2023} ,
+      year=2023 ,
+      starting month=4 ,
+      number of months=18 ,
+      without notes ,
+    }
+\end{tikzpicture}
+
+
+\end{document}
+

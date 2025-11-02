@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage{mycalendar}
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+
+\begin{document}
+\begin{tikzpicture}[
+	school calendar,
+	semester marks,
+  year=2021,
+	1st school semester={08-02}{12-04},
+	2nd school semester={2022-01-17}{2022-05-18},
+	academic week={09-27}{10-01},
+%	vacation 1st={06-07}{07-02},
+%	academic recess={03-16}{03-27},
+	%special dates={01-02,04-10,04-11,04-21,05-01, 05-16,06-11,09-07,10-12,10-28,11-02,11-28,12-05,12-25,12-25}{lightgray}  %holidays
+	special dates={09-07,09-20,10-12,11-01,11-02,11-15,2022-02-02,2022-02-28,2022-03-01,2022-04-15,2022-04-21,2022-05-01}{lightgray}  %holidays	
+]
+	\matrix[column sep=1em, row sep=1em] { 
+	%	\calmonth{01} & \calmonth{02} &  \calmonth{03} \\
+		\calmonth{04} & \calmonth{05} &  \calmonth{06} \\
+		\calmonth{07} & \calmonth{08} &  \calmonth{09} \\
+		\calmonth{10} & \calmonth{11} &  \calmonth{12} \\
+		\calmonth[2022]{01} & \calmonth[2022]{02} &  \calmonth[2022]{03} \\
+		\calmonth[2022]{04} & \calmonth[2022]{05} &  \calmonth[2022]{06} \\
+	};
+
+	\calcmarksDW{date=06-04:PE,date=06-18:Turmas,date=06-15:PE.sei}
+	\calcmarks{color=red,date=06-09:H.PE,date=06-07:Vagas,date=06-23:PE.sei,dates=06-23:06-25:Reserv}
+	%\calcmarks{dates=06-28:06-30:Ajst,dates=07-05:07-07:Matric}
+	\calcmarksDW{color=green,dates=07-09:07-10:Vagas,date=07-12:Vagas,dates=07-14:07-17:Ajst,dates=07-20:07-21:Ampli.}
+	\calcmarks{color=red,dates=07-28:07-30:Anal.Mat.}
+	
+	\calcmarksDW{date=12-03:Excl.,date=11-10:PE,date=11-26:Turmas,date=11-20:PE.sei}
+	\calcmarks{color=red,date=11-12:Vagas;H.PE,date=12-01:PE.sei,dates=12-01:12-03:Reserv}
+	%\calcmarks{dates=12-06:12-08:Ajst,date=12-10:Exclu}
+	\calcmarks{color=red,dates=12-01:12-03:Reserv,date=12-08:Dipl.}
+	%\calcmarks{dates=12-14:12-16:Matric}
+	\calcmarksDW{color=green,dates=12-20:12-21:Vagas,dates=2022-01-03:2022-01-05:Ajst,dates=2022-01-07:2022-01-08:Apli.,date=2022-01-10:Apli.}
+
+	\calcmarks{color=red,dates=2022-01-12:2022-01-14:Anal.Mat.,date=2022-05-23:Dipl.}
+
+\end{tikzpicture}
+\end{document}
+

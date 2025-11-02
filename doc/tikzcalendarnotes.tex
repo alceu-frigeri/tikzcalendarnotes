@@ -19,7 +19,7 @@
 %%
 %% The Current Maintainer of this work is Alceu Frigeri
 %%
-%% This is version {1.0a} {2025/03/10}
+%% This is version {1.1} {2025/11/02}
 %%
 %% The list of files that compose this work can be found in the README.md file at
 %% https://ctan.org/pkg/tikzcalendarnotes
@@ -27,18 +27,21 @@
 %%%==============================================================================
 \documentclass{article}
 \RequirePackage[verbose,a4paper,marginparwidth=28mm,top=3cm,bottom=1.5cm,hmargin={45mm,25mm},marginparsep=2.5mm,columnsep=10mm,asymmetric]{geometry}
-\usepackage{codedescribe}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[infograb]{codedescribe}
 \usepackage{enumitem}
 
 \RequirePackage[backend=biber]{biblatex}
 \addbibresource{tikzcalendarnotes.bib}
 
 %\RequirePackage[verbose ,a4paper ,marginparwidth=27.5mm ,top=2.5cm ,bottom=1.5cm ,hmargin={40mm ,20mm} ,marginparsep=2.5mm ,columnsep=10mm ,asymmetric]{geometry}
-%\usepackage{codedescribe}
+%\usepackage[infograb]{codedescribe}
 %\RequirePackage[inline]{enumitem}
 %\SetEnumitemKey{miditemsep}{parsep=0ex ,itemsep=0.4ex}
 
-\RequirePackage{lmodern}
+%\RequirePackage{lmodern}
 
 
 \usepackage{tikz}
@@ -107,19 +110,38 @@ Those markings/annotations can be organized as separate ``data sets'', so that, 
 
 In the following commands, a certain ``jargon'' is used, taking the following example (which is scaled down to the size of this doc). The text over the $14$ is called a ``remark'', whilst the red circle (could be a square) is called a ``mark''. The text below the same date is just called a ``note''. Finally, those small numbers, to the left, are ``week counters''.
 
+%%
+%% setting keywords emphasis
+%%
+\setnewcodekey{calendar keys}
+  {
+    texcs4={calendarnotes},
+    keywd={defnewdataset,setdates,setcountingweeks,sethighlightdates,setranges,suppresscounting},
+    emph={day,color,round,square,names,on,top,calendar,with,without,year,label,month,above,left,corner,centered,notes,every,sunday},
+    emph2={date,from,to,remark,mark,style},
+%    codeprefix={}
+  }
+
+
 \begin{codestore}[demoA]
 \defnewdataset{example}
 \setdates[example]{date=2025-01-14,color=brown,remark=short one,notes=some\break long text  used as a note,round,mark style=red}
 \setcountingweeks[example]{from=2025-01-01,to=2025-02-28}
 
+\end{codestore}
+
+\tsexec{demoA}[1]
+
+\begin{codestore}[demoA]
   \begin{tikzpicture}
     \calendarnotes[calendar notes, day names on top, every sunday=blue]{with notes,year=2025,number of months=2, data set={example}}
   \end{tikzpicture}
 \end{codestore}
 
-\tscode*[keywd={calendarnotes,defnewdataset,setdates,setcountingweeks},emph={day,color,round,square,names,on,top,calendar,notes,every,sunday},emph2={date,from,to,remark,mark,style}]{demoA}
+%\tsmergedcode*[keywd={calendarnotes,defnewdataset,setdates,setcountingweeks},emph={day,color,round,square,names,on,top,calendar,notes,every,sunday},emph2={date,from,to,remark,mark,style}]{{demoA}[1],{demoA}[2]}
+\tsmergedcode*[calendar keys]{{demoA}[1],{demoA}[2]}
 
-\tsresult*{demoA}
+\tsresult*{demoA}[2]
 
 
 \section{Package Commands}
@@ -130,13 +152,15 @@ In the following commands, a certain ``jargon'' is used, taking the following ex
 This defines/create a \tsobj[marg]{dataset} for later reference. A dataset is just a ''repository'' of dates/ranges/etc. (see below)
 \end{codedescribe}
 
+
+
 \begin{tsremark}
 About dataset's names: It can be almost anything, the name can contain strings normally not allowed in a macro name, like spaces, dots, two-dots and so on, including backslashes, meaning that if someone typesets \tsobj{\XYZ} as a dataset, \tsobj{\XYZ} will be it's name: a backslash isn't an active character anymore and one can't use macros when defining a dataset's name.
 \end{tsremark}
 
 \begin{tsremark}
 When creating a new dataset, a warning is raised  in case \tsobj[marg]{new-dataset} already exists. 
-When selecting a dataset, an error is raised if \tsobj[marg]{dataset} doesn't exists.
+When selecting a dataset, an error is raised if \tsobj[marg]{dataset} doesn't exist.
 \end{tsremark}
 
 
@@ -148,43 +172,39 @@ This adds a set of dates, \tsobj[marg]{key-value list}, to be annotated (see lis
 \end{codedescribe}
 
 
-{Valid Keys when annotating a date:}
+Valid Keys when annotating a date:
 \begin{describelist*}{option}
-\describe{date}{The date in ISO format (as used by the \tsobj[pkg]{calendar} library.}
-\describe{color}{The color of the day. No default}
+\describe{date}{The date in ISO format (as used by the \tsobj[pkg]{calendar} library).}
+\describe{color}{The color of the day. No default.}
 \describe{round}{A circle will be drawn around the date. Well, in fact a square with ``rounded corners''.}
 \describe{square}{A square will be drawn around the date.}
 \describe{mark style}{The style to be applied \emph{after} the \tsobj[key]{every mark} style.}
 \describe{remark}{A remark to be added to a date.}
 \describe{remark style}{The style to be applied \emph{after} the \tsobj[key]{every remark} style.}
 \describe{north east}{The remark, if any, will be positioned at the day's \tsobj[key]{north east} anchor.}
+
 \describe{north west}{The remark, if any, will be positioned at the day's \tsobj[key]{north west} anchor.}
 \describe{south east}{The remark, if any, will be positioned at the day's \tsobj[key]{south east} anchor.}
 \describe{south west}{The remark, if any, will be positioned at the day's \tsobj[key]{south west} anchor.}
 \describe{notes}{A note to be added bellow a date.}
 \describe{note style}{the style to be applied \emph{after} the \tsobj[key]{every note} style.}
 \end{describelist*}
-
 \begin{tsremark}
 \tsobj[key]{date} must be the first key, all other (optional) keys refers the previous \tsobj[key]{date}. One can define/set as many \tsobj[key]{dates} as one wishes in a single \tsobj{\setdates} call.
 \end{tsremark}
-
 \begin{tsremark}
 If not giving, the default position is \tsobj[key]{north east}.
 \end{tsremark}
-
 \begin{tsremark}
-An error is raised if \tsobj[oarg]{dataset} doesn't exists.
+An error is raised if \tsobj[oarg]{dataset} doesn't exist.
 \end{tsremark}
-
 \begin{codedescribe}{\setranges}
 \begin{codesyntax}%
 \tsmacro{\setranges}[dataset]{key-value list}
 \end{codesyntax}
 This adds a set of date's ranges, \tsobj[marg]{key-value list}, to be annotated (see list below). If missing, the ''default'' \tsobj[oarg]{dataset} will be used.
 \end{codedescribe}
-
-{Valid Keys when annotating a range:}
+Valid Keys when annotating a range:
 \begin{describelist*}{option}
 \describe{from}{The starting date in ISO format (as used by the \tsobj[pkg]{calendar} library.}
 \describe{to}{The final date in ISO format (as used by the \tsobj[pkg]{calendar} library.}
@@ -203,15 +223,12 @@ This adds a set of date's ranges, \tsobj[marg]{key-value list}, to be annotated 
 \begin{tsremark}
 \tsobj[key]{from,to} must be the first keys, all other (optional) keys refers the last \tsobj[key,sep=/]{from,to} pair. One can define/set as many \tsobj[key,sep=/]{from,to} ranges as one wishes in a single \tsobj{\setranges} call.
 \end{tsremark}
-
 \begin{tsremark}
 If not giving, the default position is \tsobj[key]{north east}.
 \end{tsremark}
-
 \begin{tsremark}
-An error is raised if \tsobj[oarg]{dataset} doesn't exists.
+An error is raised if \tsobj[oarg]{dataset} doesn't exist.
 \end{tsremark}
-
 
 \begin{codedescribe}{\sethighlightdates}
 \begin{codesyntax}%
@@ -232,7 +249,7 @@ One can define/set as many \tsobj[key]{dates} as one wishes in a single \tsobj{\
 \end{tsremark}
 
 \begin{tsremark}
-An error is raised if \tsobj[oarg]{dataset} doesn't exists.
+An error is raised if \tsobj[oarg]{dataset} doesn't exist.
 \end{tsremark}
 
 
@@ -255,10 +272,10 @@ A counter (of the weeks in the given range)  will be added to the left of every 
 \describe{starting at}{Sets the counters initial value. Useful in the cases when the "counting period" starts before the actual calendar.}
 \end{describelist*}
 
-\begin{tsremark}
-An error is raised if \tsobj[oarg]{dataset} doesn't exists.
-\end{tsremark}
 
+\begin{tsremark}
+An error is raised if \tsobj[oarg]{dataset} doesn't exist.
+\end{tsremark}
 \begin{tsremark}
 The \tsobj[key]{starting at} key is active only if the \tsobj[key]{keep counters} style is in use (see \ref{style:counters})
 \end{tsremark}
@@ -279,11 +296,10 @@ This will suppress/step over a few weeks when counting weeks on a \tsobj[oarg]{d
 
 
 \begin{tsremark}
-Counters of other \tsobj[oarg]{dataset}'s wont be affected.
+Counters of other \tsobj[oarg]{dataset}s won't be affected.
 \end{tsremark}
-
 \begin{tsremark}
-An error is raised if \tsobj[oarg]{dataset} doesn't exists.
+An error is raised if \tsobj[oarg]{dataset} doesn't exist.
 \end{tsremark}
 
 
@@ -303,7 +319,7 @@ The calendar range, starting date, arrangement are set by the \tsobj[marg]{key-v
 \describe{per line}{How many months shall be arranged per ``line''.}
 \describe{with notes}{The notes will be typeset. Note that this will also adjust day/week spacing, accordingly.}
 \describe{without notes}{Notes won't be typeset, resulting in a more compact calendar.}
-\describe{compact}{An alias to  ``\tsobj[key]{without notes}''.}
+\describe{compact}{An alias for  ``\tsobj[key]{without notes}''.}
 \describe{day spacing}{Inter day spacing to be used (in pt). It defaults to 25 (\tsobj[key]{with notes}) and 15 (\tsobj[key]{without notes}).}
 \describe{week spacing}{Inter week spacing to be used (in pt). It defaults to 36 (\tsobj[key]{with notes}) and 17 (\tsobj[key]{without notes}).}
 \describe{month spacing}{Inter month spacing to be used (in pt). It defaults to 20 (\tsobj[key]{with notes}) and 5 (\tsobj[key]{without notes}).}
@@ -313,7 +329,7 @@ The calendar range, starting date, arrangement are set by the \tsobj[marg]{key-v
 
 
 \begin{tsremark}
-An error is raised if \tsobj[oarg]{dataset} doesn't exists.
+An error is raised if \tsobj[oarg]{dataset} doesn't exist.
 \end{tsremark}
 
 \subsection{Advanced Use}
@@ -325,6 +341,7 @@ An error is raised if \tsobj[oarg]{dataset} doesn't exists.
 \tsmacro{\calendarnotessetifs}{}
 \tsmacro{\calendarnotesdraw}{}
 \end{codesyntax}
+
 Those are provided for the case one wants to use a different calendar arrangement, but still wants to use the underlying marking provided by this package.
 
 \tsobj{\calendarnotesprepare} will process all \tsobj[oarg]{pgfkeys} and \tsobj[marg]{key-value list} as \tsobj{\calendarnotes} does, but nothing else.
@@ -335,7 +352,7 @@ Finally, \tsobj{\calendarnotesdraw} will add the marks/remarks (and notes if the
 
 Note that, the user is supposed to construct/draw the calendar between the \tsobj{\calendarnotessetifs} and \tsobj{\calendarnotesdraw} commands.
 \end{codedescribe}
-
+ 
 
 \section{Ti{\itshape  k}Z Styles}\label{tikz-styles}
 A few \tsobj[pkg]{TikZ} styles are defined, to work together with the ones from the \tsobj[pkg]{calendar} library. A few of them are about ``calendar arrangement'', like \tsobj[key]{calendar notes, week starts on x}, others are about adding year/week list labels, like \tsobj[key]{year label , day names on top }. And  others are for formatting/styling. See the \tsobj[pkg]{pgfmanual} \cite{TIKZPGF:3.1} for a complete list of possible keys, under section \emph{Calendar Library}.
@@ -347,8 +364,8 @@ all keys are defined under the \tsobj[key]{/tikz/} ``family''. For instance \tsv
 
 
 \begin{codedescribe}[key]{calendar notes}
-\begin{codesyntax}%
-\end{codesyntax}
+%\begin{codesyntax}%
+%\end{codesyntax}
 This is the \emph{main style} to be used with the \tsobj{\calendarnotes} command. Months are arranged one week per line (using the \tsobj[key]{week starts on x} style, see below). Day coordinates are ``remembered'' (\tsobj[pkg]{tikz} style \tsobj[key]{remember picture}) for later reference.
 \end{codedescribe}
 
@@ -392,8 +409,6 @@ If the label's position isn't already set, the style \tsobj[key]{year label left
 
 
 \begin{codedescribe}[key]{year label left}
-\begin{codesyntax}%
-\end{codesyntax}
 The calendar's year label will added to the left of a month.
 \end{codedescribe}
 
@@ -402,8 +417,6 @@ If a year's label policy (if every month, just january or \ldots) hasn't been se
 \end{tsremark}
 
 \begin{codedescribe}[key]{year label left vertical}
-\begin{codesyntax}%
-\end{codesyntax}
 The calendar's year will be at the left of a month, rotated $90^o$
 \end{codedescribe}
 
@@ -517,7 +530,7 @@ This will set a styling for ``Sundays''. No default is set.
 \end{codedescribe}
 
 \begin{tsremark}
-This will append an ``if = (Sunday)'' associated with the \tsobj[key]{every calendar}. Besides that, this will also be appended / applied to the corresponding ``day name''. 
+This will append an ``if = (Sunday)'' associated with the \tsobj[key]{every calendar}. Besides that, this will also be appended / applied to the corresponding ``day name'' (Sunday). 
 \end{tsremark}
 
 \begin{codedescribe}[key]{every weekend}
@@ -559,43 +572,6 @@ A negative adjust will reduce the size of the marks, whilst a positive number wi
 \section{An Example}
 
 
-\defnewdataset{dataset A}
-\defnewdataset{dataset B}
-\defnewdataset{dataset C}
-
-\setcountingweeks{from=2025-01-01,to=2025-12-31,down,color=gray!40!white} % deafault dataset
-
-\setcountingweeks[dataset A]{from=2025-04-07,to=2025-08-29,color=red}
-\setcountingweeks[dataset A]{from=2025-09-22,to=2026-03-23,color=brown}
-\suppresscounting[dataset A]{from=2025-07-07,to=2025-08-01} % like, summer break
-
-\setranges[dataset A]
-  {
-    from=2025-08-25,to=2025-08-29,round,remark=Exams Week!
-  }  
-\sethighlightdates[dataset A]
-  {
-    dates = {01-01, 01-02, 03-01, 04-01, 2025-06-05} %some holidays, 
-  }  
-\setdates[dataset A]
-  {
-    date=2025-06-23, round, remark = L1 , notes= {FIS101 - cinematics} ,
-    date=2025-06-25, round, remark = L1 , notes= {MAT101 - integrals} ,
-  }
-\setdates[dataset B]
-  {
-    date=2025-03-22, round, color=brown, remark=C. Birthday,
-    date=2025-01-26, round, color=brown, remark=W. Birthday,
-  }
-\setranges[dataset C]
-  {
-    from=2025-06-06,to=2025-06-26,round,remark=Valencia!
-  }  
-
-
-%% dammit scontents that creates a "special group" context...
-%% so, it is necessary to duplicate/replicate code
-%%
 \begin{codestore}[demoX]
 \defnewdataset{dataset A}
 \defnewdataset{dataset B}
@@ -634,14 +610,11 @@ A negative adjust will reduce the size of the marks, whilst a positive number wi
 
 First, 3 \tsobj[meta]{data sets} are created, highlighting a few dates. 
 
+\tsexec{demoX}
 
-\tscode*
-  [
-    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks,sethighlightdates,setranges,suppresscounting},
-    emph={day,color,round,square,names,on,top,calendar,with,without,year,label,month,above,left,corner,centered,notes,every,sunday},
-    emph2={date,dates,from,to,remark,mark,style}
-  ]
+\tscode*[calendar keys]
   {demoX}
+
 
 Then, for instance, one can create a calendar (\tsobj{\calendarnotes}) with only 3 \tsobj[meta]{data sets} (\tsobj[marg]{default, dataset A, dataset B}), without notes.
 
@@ -665,12 +638,7 @@ Then, for instance, one can create a calendar (\tsobj{\calendarnotes}) with only
 
 
 
-\tscode*
-  [
-    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks,sethighlightdates,setranges,suppresscounting},
-    emph={day,color,round,square,names,on,top,calendar,with,without,year,label,month,above,left,corner,centered,notes,every,sunday},
-    emph2={date,from,to,remark,mark,style}
-  ]
+\tscode*[calendar keys]
   {demoB}
  
  
@@ -747,14 +715,9 @@ Some text.
 \end{codestore}
 
 
-\tscode*
-  [
-    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks,setranges,suppresscounting},
-    emph={day,color,round,square,names,on,top,calendar,with,without,year,label,month,above,left,corner,centered,notes,every,sunday},
-    emph2={date,from,to,remark,mark,style},
-    emph3={keep,counters}
-  ]
+\tscode*[calendar keys, emph3={keep,counters} ]
   {demoC}
+
 
 ~
 
@@ -779,7 +742,7 @@ Lastly, in case ones wants an expanded view of a single, out of order, month you
       %year label left corner ,
       day names on top ,
       every sunday=blue ,
-      keep counters
+      keep counters,
     ]
     { 
       data set={dataset A, dataset B},
@@ -794,13 +757,7 @@ Lastly, in case ones wants an expanded view of a single, out of order, month you
 \end{codestore}
 
 
-\tscode*
-  [
-    keywd={calendarnotes,defnewdataset,setdates,setcountingweeks},
-    emph={day,color,round,square,names,on,top,calendar,with,without,year,label,month,above,left,corner,centered,notes,every,sunday},
-    emph2={date,from,to,remark,mark,style},
-    emph3={keep,counters}
-  ]
+\tscode*[calendar keys, emph3={keep,counters} ]
   {demoD}
 
 ~

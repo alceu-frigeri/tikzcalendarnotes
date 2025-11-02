@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage{mycalendar}
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\setlength\PreviewBorder{5pt}%
+
+\begin{document}
+\begin{tikzpicture}[
+	school calendar,
+	semester marks,
+  year=2022,
+	1st school semester={06-13}{10-20},
+	2nd school semester={11-17}{2023-04-19},
+	academic week={09-26}{10-01},
+%	vacation={06-07}{07-02},
+	academic recess={12-24}{2023-01-15},
+%	vacation={2022-01-03}{2022-01-14},
+%%%% current period: to be adjusted !!!
+%	vacation={2022-05-30}{2022-06-17},
+%	vacation={2022-11-07}{2022-11-20},
+	vacation={05-30}{06-10}, % ONE week less !!
+	vacation={10-24}{11-13}, % starts TWO weeks earlier !! 
+%
+	%special period={11-08}{11-12}{blue},
+%	special dates={09-07,09-20,10-12,11-01,11-02,11-15,2022-02-02,2022-02-28,2022-03-01,2022-04-15,2022-04-21,2022-05-01}{lightgray}  %holidays	
+  special dates={06-16,09-07,09-20,10-12,2023-02-02,2023-02-20,2023-02-22,2023-04-07}{lightgray}  %holidays	
+]
+	\matrix[column sep=1em, row sep=1em] { 
+%		\calmonth{01} & \calmonth{02} &  \calmonth{03} \\
+		\calmonth{04} & \calmonth{05} &  \calmonth{06} \\
+		\calmonth{07} & \calmonth{08} &  \calmonth{09} \\
+		\calmonth{10} & \calmonth{11} &  \calmonth{12} \\
+		\calmonth[2023]{01} & \calmonth[2023]{02} &  \calmonth[2023]{03} \\
+		\calmonth[2023]{04} & \calmonth[2023]{05} &  \calmonth[2023]{06} \\
+%		\calmonth[2022]{07} & \calmonth[2022]{08} &  \calmonth[2022]{09} \\
+%		\calmonth[2022]{10} & \calmonth[2022]{11} &  \calmonth[2022]{12} \\
+	};
+
+	\calnotesDW{color=blue!20!white,date=2023-01-15:recesso}
+	\calcmarksUP{date=08-08:P1,date=10-10:P2,date=10-17:Ex}
+	\calrmarksUP{color=red,date=10-21:Reg}
+	\calcmarksUP{date=2023-02-13:P1,date=2023-04-10:P2,date=2023-04-17:Ex}
+	\calrmarksUP{color=red,date=2023-04-20:Reg}
+%	\calnotesDW{color=red!20!white,date=2022-01-14:Férias}
+	\calnotesDW{color=red!20!white,date=06-10:Férias}
+	\calnotesDW{color=red!20!white,date=11-13:Férias}
+	
+%	\calnotesDW{date=10-01:S.Acad.}
+				
+% \calcmarksUP{color=green!40!gray,date=03-09:TCC,date=03-20:TCC,date=04-27:TCC,date=05-01:TCC}
+% \calcmarksDW{color=green!40!gray,date=06-12:TCC,date=06-15:TCC,date=06-26:TCC,date=07-03:TCC,date=07-10:TCC,dates=06-22:06-26:TCC}
+% \calcmarksUP{color=green!40!gray,dates=06-22:06-26:TCC}
+\end{tikzpicture}
+\end{document}
+

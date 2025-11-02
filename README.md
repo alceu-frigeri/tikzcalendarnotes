@@ -60,13 +60,19 @@ The Current Maintainer of this work is Alceu Frigeri
     - quick introduction
 
 * tikzcalendarnotes.tex
+* tikzcalendarnotes.bib
     - package documentation
+
 * tikzcalendarnotes.pdf
     - documentation in PDF format
     
 -------------
 
 ## Change log
+* Version 1.1 (next)
+    - switching over 'pkginfograb' package's info
+    - removed expl3 scratch variables (\l_tmp...)
+    - a bit better expansion control
 
 * Version 1.0a (this)
     - Documentantion: some emphasis towards ```pgfmanual``` standard key/styles. (issue #1).

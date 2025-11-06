@@ -352,7 +352,9 @@ Finally, \tsobj{\calendarnotesdraw} will add the marks/remarks (and notes if the
 
 Note that, the user is supposed to construct/draw the calendar between the \tsobj{\calendarnotessetifs} and \tsobj{\calendarnotesdraw} commands.
 \end{codedescribe}
- 
+\begin{tsremark}
+  For \tsobj{\calendarnotesdraw} to work, the \tsobj[pkg]{tikz} style \tsobj[option]{remember picture} must have been used when drawing the calendar.
+\end{tsremark}
 
 \section{Ti{\itshape  k}Z Styles}\label{tikz-styles}
 A few \tsobj[pkg]{TikZ} styles are defined, to work together with the ones from the \tsobj[pkg]{calendar} library. A few of them are about ``calendar arrangement'', like \tsobj[key]{calendar notes, week starts on x}, others are about adding year/week list labels, like \tsobj[key]{year label , day names on top }. And  others are for formatting/styling. See the \tsobj[pkg]{pgfmanual} \cite{TIKZPGF:3.1} for a complete list of possible keys, under section \emph{Calendar Library}.
@@ -387,7 +389,7 @@ If the label's position isn't already set, the style \tsobj[key]{year label left
 \end{tsremark}
 
 \begin{tsremark} 
-this is the default when using one of the \tsobj[key]{year label left/left vertical/corner}.
+this is the default when using one of the \tsobj[key,sep=or]{year label left, year label left vertical, year label left corner}.
 \end{tsremark}
 
 \begin{codedescribe}[key]{year label by january only}
@@ -594,7 +596,7 @@ A negative adjust will reduce the size of the marks, whilst a positive number wi
 \setdates[dataset A]
   {
     date=2025-06-23, round, remark = L1 , notes= {FIS101 - cinematics} ,
-    date=2025-06-25, round, remark = L1 , notes= {MAT101 - integrals} ,
+    date=2025-06-25, round, remark = L2 , notes= {MAT101 - integrals} ,
   }
 \setdates[dataset B]
   {
@@ -766,5 +768,7 @@ Lastly, in case ones wants an expanded view of a single, out of order, month you
   {demoD}
 
 \printbibliography
+
+
 
 \end{document} 

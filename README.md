@@ -69,7 +69,11 @@ The Current Maintainer of this work is Alceu Frigeri
 -------------
 
 ## Change log
-* Version 1.1  (this)
+* Version 1.2  (this)
+    - small doc revision
+    - code clean up (reducing the clutter) 
+
+* Version 1.1 
     - switching over 'pkginfograb' package's info
     - removed expl3 scratch variables (\l_tmp...)
     - a bit better expansion control

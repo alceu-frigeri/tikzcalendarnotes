@@ -16,8 +16,8 @@
 .*.lb
 
 ## test directories
-#tests/
-#deprecated/
+pkgTests/
+pkgDeprecated/
 
 ## TeXstudio
 *.txss2
